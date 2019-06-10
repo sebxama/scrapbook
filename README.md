@@ -8,5 +8,8 @@ Meanwhile I dump all my head scratching thoughts into this blog and a related Gi
 
 https://github.com/snxama/scrapbook
 
+Current status:
+https://github.com/snxama/scrapbook/blob/master/Index.docx?raw=true
+
 Best regards,
 Seb.

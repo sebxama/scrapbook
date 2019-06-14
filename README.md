@@ -1,6 +1,4 @@
-# scrapbook
-
-# Hello!, World!!!
+# Hello, World!
 
 I'm Sebastian, software developer from Buenos Aires, Argentina. I'm currently mildly seasoned in the development of business applications in the Java platform and related technologies and stacks.
 But what has got me scratching my head a lot in the last couple of years is the "Semantic Web". I know it is a technology paradigm far away from it's realization. But, perhaps, with the advent of Big Data and such it could finally find its niche.
@@ -9,7 +7,7 @@ Meanwhile I dump all my head scratching thoughts into this blog and a related Gi
 https://github.com/snxama/scrapbook
 
 Current status:
-https://github.com/snxama/scrapbook/blob/master/Index.docx?raw=true
+https://github.com/snxama/scrapbook/blob/master/Index.docx
 
 Best regards,
 Seb.

@@ -39,15 +39,19 @@ Low level Resource / Message / Context model / layers API. REST. Render DOM Cont
 # Model:
 
 (OntResource, OntResource, OntResource, OntResource);
+
 OntResource represents aggregated / matched different identifiers / URIs referring to the same subject.
 
 (Predicate, OntResource, OntResource, OntResource);
+
 For a Predicate occurrence, attributes / values.
 
 (Message, Predicate, OntResource, OntResource);
+
 For a Message Predicate occurrence, possible attributes.
 
 (Context, Message, Predicate, OntResource);
+
 Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concept).
 
 (Transform, Context, Message, Predicate);

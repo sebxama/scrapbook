@@ -52,7 +52,7 @@ For a Message Predicate occurrence, possible attributes.
 
 (Context, Message, Predicate, OntResource);
 
-Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concept).
+Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concept). Adapter: Context layer (semiotic interpreter).
 
 (Transform, Context, Message, Predicate);
 
@@ -96,11 +96,25 @@ Pick Flow Class and assign Kind (DCI Role). Assign / create Entity (model alignm
 
 Follow up in occurrences hierarchy: CRUD / CUD available / possible. Perform Augmentations.
 
-# Adapters (Connectors / Clients):
+# Adapter (Connector / Client):
 
-Synchronization: Functional. Monads (source / dest: domain / range). Functors (APIs: templates / event drivers for function composition / translation). Inverse functions: backend protocols / formats. Adapter endpoint resolution: activates on backends protocols / formats / data.
+Synchronization: Functional. Monads (source / dest: domain / range). Functors (APIs: templates / event drivers for function composition / translation). Inverse functions: backend IO protocols / formats. Adapter endpoint resolution: activates on backends protocols / formats / data.
 
-Adapter (Connector / Client): Model Encoding. Container (reactive message / event driven) Model APIs. To do.
+Adapter (Connector / Client): Model Encoding. Container (reactive message / event driven) APIs. Model / Container APIs interactions.
+
+Adapter / Model "statements" IO abstraction (Forms / Flows: Message events attribute / values).
+
+Message (events): bidirectional CRUD streams (Adapter "template" methods, Model Message declarations):
+
+Adapter: Context layer (semiotic interpreter).
+
+onCreate;
+
+onRetrieve;
+
+onUpdate;
+
+onDelete;
 
 
 Sebastian Samaruga

@@ -34,6 +34,70 @@ Goals App: Hypermedia contents APIs (embedded / embeddable resources: Semantic c
 
 Low level Resource / Message / Context model / layers API. REST. Render DOM Context / OGM Domain (model) instances: Restful Objects / Apache Isis / HAL / GraphQL (meta / domains models endpoints) like APIs. Forms / Flows MVC / DCI APIs (connectors / clients / adapters).
 
+# To Do
+
+# Model:
+
+(OntResource, OntResource, OntResource, OntResource);
+OntResource represents aggregated / matched different identifiers / URIs referring to the same subject.
+
+(Predicate, OntResource, OntResource, OntResource);
+For a Predicate occurrence, attributes / values.
+
+(Message, Predicate, OntResource, OntResource);
+For a Message Predicate occurrence, possible attributes.
+
+(Context, Message, Predicate, OntResource);
+Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concept).
+
+(Transform, Context, Message, Predicate);
+
+(Mapping, Transform, Context, Message);
+
+(Template, Mapping, Transform, Context);
+
+(Augmentation, Template, Mapping, Transform);
+
+(Resource, Augmentation, Template, Mapping);
+
+(Role, Resource, Augmentation, Template);
+
+(Statement, Role, Resource, Augmentation); Augmentation of which Statement is result of.
+
+(Model, Statement, Role, Resource);
+
+(Entity, Model, Statement, Role); Model (Backends) aligned entities.
+
+(Kind, Entity, Model, Statement);
+
+(Class, Kind, Entity, Model);
+
+(Flow, Class, Kind, Entity);
+
+(Behavior, Flow, Class, Kind);
+
+(Measure, Behavior, Flow, Class);
+
+(Value, Measure, Behavior, Flow);
+
+(Unit, Value, Measure, Behavior);
+
+(Dimension, Unit, Value, Measure);
+
+Example: Application (protocol) shows Dimension, select Unit / Value and assert Measure.
+
+Pick (matched / new) corresponding Behavior. Select available / new Flow.
+
+Pick Flow Class and assign Kind (DCI Role). Assign / create Entity (model alignment / assignation).
+
+Follow up in occurrences hierarchy: CRUD / CUD available / possible. Perform Augmentations.
+
+# Adapters (Connectors / Clients):
+
+Synchronization: Functional. Monads (source / dest: domain / range). Functors (APIs: templates / event drivers for function composition / translation). Inverse functions: backend protocols / formats. Adapter endpoint resolution: activates on backends protocols / formats / data.
+
+Adapter (Connector / Client): Model Encoding. Container (reactive message / event driven) Model APIs. To do.
+
 
 Sebastian Samaruga
 

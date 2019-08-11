@@ -78,19 +78,21 @@ Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concep
 
 (Flow, Class, Kind, Entity);
 
-(Behavior, Flow, Class, Kind);
+(Behavior, Flow, Class, Kind); Statement, proposition.
 
-(Measure, Behavior, Flow, Class);
+(Value, Behavior, Flow, Class); Value on which Behavior occurrence holds.
 
-(Value, Measure, Behavior, Flow);
+(Unit, Value, Behavior, Flow);
 
-(Unit, Value, Measure, Behavior);
+(Dimension, Unit, Value, Behavior);
 
-(Dimension, Unit, Value, Measure);
+(Measure, Dimension, Unit, Value); Truth values. Equivalent Measure(s), comparisons (order / hierarchies). Measure Dimension attributes / values.
 
-Example: Application (protocol) shows Dimension, select Unit / Value and assert Measure.
+Ontology Matching: Equivalent propositions that for different subjects have the same dimensional layer equivalent Measure(s) Value(s): attributes / values.
 
-Pick (matched / new) corresponding Behavior. Select available / new Flow.
+Example: Application (protocol) shows aggregated Measures Dimensions, select Unit / Value and assert / browse Measures.
+
+Pick (matched / new) Behavior corresponding to Measures Values. Select available / new Flow.
 
 Pick Flow Class and assign Kind (DCI Role). Assign / create Entity (model alignment / assignation).
 

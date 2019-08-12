@@ -98,6 +98,8 @@ Pick Flow Class and assign Kind (DCI Role). Assign / create Entity (model alignm
 
 Follow up in occurrences hierarchy: CRUD / CUD available / possible. Perform Augmentations.
 
+Rendering: S: current document URL, P: link tag body, O: href, rel: Context (referrer). Navigation: GET / headers. GET (navigate, possible resources, posible contexts / subjects / attributes): CRUD / Contexts aggregation / transforms / matching. Encoding: CRUD / browse layers (CSPO Patterns Forms / Flows layers de-aggregations / faceted traversals).
+
 # Adapter (Connector / Client):
 
 Synchronization: Functional. Monads (source / dest: domain / range). Functors (APIs: templates / event drivers for function composition / translation). Inverse functions: backend IO protocols / formats. Adapter endpoint resolution: activates on backends protocols / formats / data.
@@ -120,7 +122,4 @@ onDelete;
 
 
 Sebastian Samaruga
-
-https://www.linkedin.com/in/sebastian-samaruga-66811b182
-
 https://snxama.blogspot.com

@@ -34,25 +34,125 @@ Goals App: Hypermedia contents APIs (embedded / embeddable resources: Semantic c
 
 Low level Resource / Message / Context model / layers API. REST. Render DOM Context / OGM Domain (model) instances: Restful Objects / Apache Isis / HAL / GraphQL (meta / domains models endpoints) like APIs. Forms / Flows MVC / DCI APIs (connectors / clients / adapters).
 
+# Adapter (Connector / Client):
+
+Synchronization: Functional. Monads (source / dest: domain / range). Functors (APIs: templates / event drivers for function composition / translation). Inverse functions: backend IO protocols / formats. Adapter endpoint resolution: activates on backends protocols / formats / data.
+
+Adapter (Connector / Client): Model Encoding. Container (reactive message / event driven) APIs. Model / Container APIs interactions.
+
+Adapter / Model "statements" IO abstraction (Forms / Flows: Message events attribute / values).
+
+Message (events): bidirectional CRUD streams (Adapter "template" methods, Model Message declarations):
+
+Adapter: Context layer (semiotic interpreter).
+
+onCreate;
+
+onRetrieve;
+
+onUpdate;
+
+onDelete;
+
 # To Do
+
+Rendering: S: current document URL, P: link tag body, O: href, rel: Context (referrer). Navigation: GET / headers. GET (navigate, possible resources, posible contexts / subjects / attributes): CRUD / Contexts aggregation / transforms / matching. Encoding: CRUD / browse layers (CSPO Patterns Forms / Flows layers de-aggregations / faceted traversals).
+
+Encoding:
+
+Encoding, APIs: REST HATEOAS, JSON-LD, HAL. Distributed (normalized) address ID spaces.
+
+TBD:
+
+Layers down / up traversal:
+
+C: Anchor rel (referrer);
+S: Current URL;
+P: Anchor tag body;
+O: Anchor href;
+
+Layers up / down traversal:
+
+C: Current URL;
+S: Anchor rel / referrer;
+P: Anchor tag body;
+O: Anchor href;
+
+Functors functional declaration:
+(((a: O, b: S), c: P), d: C);
+
+(((O, S), P), C): Referring Context. Augmentations functors signature. Traversal performs functor augmentations "backwards" traversal direction concatenating type, role, interactions transforms incrementally.
+
+Encoding (example): recursive CSPO IDs: (metaclass, class, instance, occurrence) IDs. URLs: domain/CID:SID:PID:OID. Graph URLs / rels traversal.
+
+Addressing: URLs encode complete (possible) state flows: reified model state URLs (faceted browse / CRUD).
+
+REST HATEOAS: Link rel (account): deposit, whitdraw, etc. Flow Behavior "referrer" rel.
+
+Resource entity 'whitdrawal': context interaction. Actions 'possible'. Behavior Flow "referrer" rel.
+
+Resource Monad: encode protocol functors. Endpoint address activation behavior facades. Graph state / rels traversal: Monad encodes entire state location flows to current CSPO URL IDs state (traceability in interaction context rels). Abstract Form / Flow attrs / rels.
+
+Functors resolution on API addresses URLs: resource monads rels / attrs activation.
+
+Model / Domain levels of common model / domain monads, functors: model / domain abstract augmentations / behaviors. Declared in model contexts messages / augmentation instances.
+
+Behavior layer renders domains possible aggregated augmentations / messages of model functors composition. Rendered in domain levels as concrete contexts operations: named context operations over abstract model functors behaviors.
+
+Functors:
+
+Functors: model layers aggregations declarations / instances. Type, Role, Alignment levels. Domain / range: CSPO contexts (Template, Transform signatures). Transform: Mapping Message. Hypermedia events dataflows triggered functors (signature bindings).
+
+Message: Functor Declaration. (events / grammar: protocols).
+
+Augmentation: Functor Instance.
+
+Functors functional declaration:
+(((a: O, b: S), c: P), d: C);
+
+(dado rango y alcance, universo: U de una relación: P, inferir dominio y codominio, campo: C). TBD.
+
+Type functor: contexts stream.
+(((Mapping, Augmentation), Template), Resource);
+Context layer class / instances.
+
+Role functor: type contexts occurrences stream.
+(((Template, Resource), Augmentation), Role);
+Type Context layer class occurrence (Subject) in aggregated context layers.
+
+Alignment functor: type occurrence attributes / values in contexts interactions stream.
+(((Augmentation, Role), Resource), Statement);
+Type Subject occurrence attributes / values (statements / augmentation "kinds").
+
+Behavior flows functor composition: Behavior, Flow, Class, Kind, Entity layers aggregation. Determine type, role, alignment augmentations. Example: type (Class Model) in context (Flow Entity) in interaction (Behavior Kind).
+
+Encoding:
+
+Encoding: metaclass, class, instance, occurrence (contextual / nested / orders / ops) CSPO IDs. CURIEs.
+
+Encoding: Sets CSPO Contexts specification (sets quad encoding).
+
+Encoding: Functor application. Predicate: functor behavior, domain: statement predicate, transform / range: statement object.
+
+Encoding: Levels (OntResource context hierarchy) reification: Message as Predicate, etc. Resource Monad (context statement / signatures). Functor aggregation: levels (type, role, alignment).
+
+Encoding: Grammars. OntResource hierarchy reification: rules (contexts) / non terminals (reified Predicates / Kinds). Aligned OntResource URLs: terminals. Augmentations: productions (functors).
 
 # Model:
 
+Model layers:
+
+OntResource: Resolves reified aligned / matched aggregated Resources.
+
+Predicate: 'kind', aggregates roles attributes / values. Grammar.
+
 (OntResource, OntResource, OntResource, OntResource);
 
-OntResource represents aggregated / matched different identifiers / URIs referring to the same subject.
+(Predicate, OntResource, OntResource, OntResource); For a Predicate occurrence, attributes / values.
 
-(Predicate, OntResource, OntResource, OntResource);
+(Message, Predicate, OntResource, OntResource); For a Message Predicate occurrence, possible attributes / values. Functor declaration.
 
-For a Predicate occurrence, attributes / values.
-
-(Message, Predicate, OntResource, OntResource);
-
-For a Message Predicate occurrence, possible attributes.
-
-(Context, Message, Predicate, OntResource);
-
-Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concept). Adapter: Context layer (semiotic interpreter).
+(Context, Message, Predicate, OntResource); Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concept). Adapter.
 
 (Transform, Context, Message, Predicate);
 
@@ -62,11 +162,11 @@ Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concep
 
 (Augmentation, Template, Mapping, Transform);
 
-(Resource, Augmentation, Template, Mapping);
+(Resource, Augmentation, Template, Mapping); Type Functor Augmentation instance.
 
-(Role, Resource, Augmentation, Template);
+(Role, Resource, Augmentation, Template); Role Functor Augmentation instance.
 
-(Statement, Role, Resource, Augmentation); Augmentation of which Statement is result of.
+(Statement, Role, Resource, Augmentation); Augmentation of which Statement is result of. Alignment Functor Augmentation instance.
 
 (Model, Statement, Role, Resource);
 
@@ -87,38 +187,6 @@ Occurrence (object) for a Context (interpreter) Message (sign) Predicate (concep
 (Dimension, Unit, Value, Behavior);
 
 (Measure, Dimension, Unit, Value); Truth values. Equivalent Measure(s), comparisons (order / hierarchies). Measure Dimension attributes / values.
-
-Ontology Matching: Equivalent propositions that for different subjects have the same dimensional layer equivalent Measure(s) Value(s): attributes / values.
-
-Example: Application (protocol) shows aggregated Measures Dimensions, select Unit / Value and assert / browse Measures.
-
-Pick (matched / new) Behavior corresponding to Measures Values. Select available / new Flow.
-
-Pick Flow Class and assign Kind (DCI Role). Assign / create Entity (model alignment / assignation).
-
-Follow up in occurrences hierarchy: CRUD / CUD available / possible. Perform Augmentations.
-
-Rendering: S: current document URL, P: link tag body, O: href, rel: Context (referrer). Navigation: GET / headers. GET (navigate, possible resources, posible contexts / subjects / attributes): CRUD / Contexts aggregation / transforms / matching. Encoding: CRUD / browse layers (CSPO Patterns Forms / Flows layers de-aggregations / faceted traversals).
-
-# Adapter (Connector / Client):
-
-Synchronization: Functional. Monads (source / dest: domain / range). Functors (APIs: templates / event drivers for function composition / translation). Inverse functions: backend IO protocols / formats. Adapter endpoint resolution: activates on backends protocols / formats / data.
-
-Adapter (Connector / Client): Model Encoding. Container (reactive message / event driven) APIs. Model / Container APIs interactions.
-
-Adapter / Model "statements" IO abstraction (Forms / Flows: Message events attribute / values).
-
-Message (events): bidirectional CRUD streams (Adapter "template" methods, Model Message declarations):
-
-Adapter: Context layer (semiotic interpreter).
-
-onCreate;
-
-onRetrieve;
-
-onUpdate;
-
-onDelete;
 
 
 Sebastian Samaruga

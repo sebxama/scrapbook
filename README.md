@@ -5,4 +5,5 @@ But what has got me scratching my head a lot in the last couple of years is the 
 Meanwhile I dump all my head scratching thoughts into this blog and a related GitHub repository I'd like to share. It is an endless work in progress draft and a scrapbook of spare assorted ideas waiting to be realized...
 
 Sebastian Samaruga
+
 https://snxama.blogspot.com

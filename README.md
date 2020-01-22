@@ -10,4 +10,4 @@ The code / script and others are licensed under GNU General Public License vers
 
 Sebastian Samaruga
 
-https://snxama.blogspot.com
+https://sebxama.blogspot.com

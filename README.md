@@ -11,8 +11,4 @@ Meanwhile I dump all my head scratching thoughts into this blog and a related Gi
 Introduction:
 https://github.com/sebxama/scrapbook/raw/master/ProjectEN.docx
 
-Sebastian Samaruga
-https://github.com/sebxama/scrapbook/raw/master/CVSebastianSamarugaEN.pdf
-https://github.com/sebxama/scrapbook/raw/master/CVSebastianSamarugaES.pdf
-
 https://sebxama.blogspot.com

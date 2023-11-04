@@ -47,10 +47,10 @@ public class AggregationController {
 		String[] rules = null;
 		System.out.println("performAggregation");
 		aggregationService.loadRepositoryStatements(query, rules);
-		//aggregationService.performContextKindsAggregation();
+		aggregationService.performContextKindsAggregation();
 		aggregationService.performSubjectKindsAggregation();
-		//aggregationService.performPropertyKindsAggregation();
-		//aggregationService.performObjectKindsAggregation();
+		aggregationService.performPropertyKindsAggregation();
+		aggregationService.performObjectKindsAggregation();
 		return Mono.just("OK");
 	}
 

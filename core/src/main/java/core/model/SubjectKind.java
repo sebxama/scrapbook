@@ -6,6 +6,8 @@ import java.util.Set;
 
 public interface SubjectKind extends Context, Subject, Property, ModelObject, Kind {
 	
+	public Set<Subject> getSubjects();
+	
 	public Set<Subject> getInstanceSubjects(Resource instance);
 	
 	public Set<Property> getAttributeProperties(Resource attribute);

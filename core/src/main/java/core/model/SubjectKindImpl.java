@@ -1,6 +1,7 @@
 package core.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +24,14 @@ public class SubjectKindImpl extends KindImpl implements SubjectKind {
 		super(iri);
 	}
 
+	@Override
+	public Set<Subject> getSubjects() {
+		Set<Subject> ret = new HashSet<Subject>();
+		for(Resource res : super.getInstances())
+			ret.addAll(Subjects.getInstance().getSubjects(null, res, null, null));
+		return ret;
+	}
+	
 	@Override
 	public Set<Subject> getInstanceSubjects(Resource instance) {
 		return Subjects.getInstance().getSubjects(null, instance, null, null);

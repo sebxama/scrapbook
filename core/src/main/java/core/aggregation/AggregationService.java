@@ -22,6 +22,7 @@ import core.model.ContextKindImpl;
 import core.model.ContextKinds;
 import core.model.Contexts;
 import core.model.KindStatement;
+import core.model.KindStatements;
 import core.model.Subject;
 import core.model.SubjectImpl;
 import core.model.SubjectKind;
@@ -53,7 +54,6 @@ import core.model.ModelObjectKinds;
 import core.model.ModelObjects;
 import core.model.Properties;
 import core.model.Statements;
-
 
 @Service
 public class AggregationService {
@@ -144,7 +144,7 @@ public class AggregationService {
 		}
 	}
 
-	public Set<Statement> performContextKindsAggregation() {
+	public Set<KindStatement> performContextKindsAggregation() {
 
 		System.out.println("CONTEXTS");
 		
@@ -234,10 +234,10 @@ public class AggregationService {
         	}
         }
         
-		return Statements.getInstance().getStatements();
+		return KindStatements.getInstance().getKindStatements(null, null, null, null);
 	}
 	
-	public Set<Statement> performSubjectKindsAggregation() {
+	public Set<KindStatement> performSubjectKindsAggregation() {
 
 		System.out.println("SUBJECTS");
 		
@@ -335,15 +335,15 @@ public class AggregationService {
         }
         
         System.out.println();
-        System.out.println("KINDSTATEMENTS: "+SubjectKinds.getInstance().getKindStatements(null, null, null, null).size());
-        for(KindStatement kstat : SubjectKinds.getInstance().getKindStatements(null, null, null, null)) {
+        System.out.println("KINDSTATEMENTS: "+KindStatements.getInstance().getKindStatements(null, null, null, null).size());
+        for(KindStatement kstat : KindStatements.getInstance().getKindStatements(null, null, null, null)) {
         	System.out.println("KindStatement: "+kstat.hashCode());
         }
         
-		return Statements.getInstance().getStatements();
+		return KindStatements.getInstance().getKindStatements(null, null, null, null);
 	}
 	
-	public Set<Statement> performPropertyKindsAggregation() {
+	public Set<KindStatement> performPropertyKindsAggregation() {
 
 		System.out.println("PROPERTIES");
 		
@@ -433,10 +433,10 @@ public class AggregationService {
         	}
         }
         
-		return Statements.getInstance().getStatements();
+		return KindStatements.getInstance().getKindStatements(null, null, null, null);
 	}
 
-	public Set<Statement> performObjectKindsAggregation() {
+	public Set<KindStatement> performObjectKindsAggregation() {
 
 		System.out.println("OBJECTS");
 		
@@ -526,7 +526,7 @@ public class AggregationService {
         	}
         }
         
-		return Statements.getInstance().getStatements();
+		return KindStatements.getInstance().getKindStatements(null, null, null, null);
 	}
 	
 }

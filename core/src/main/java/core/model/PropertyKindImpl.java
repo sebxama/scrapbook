@@ -1,6 +1,7 @@
 package core.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +19,14 @@ public class PropertyKindImpl extends KindImpl implements PropertyKind {
 	
 	private PropertyKindImpl(Resource iri) {
 		super(iri);
+	}
+
+	@Override
+	public Set<Property> getProperties() {
+		Set<Property> ret = new HashSet<Property>();
+		for(Resource res : super.getInstances())
+			ret.addAll(Properties.getInstance().getProperties(null, null, res, null));
+		return ret;
 	}
 	
 	@Override

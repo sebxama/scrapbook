@@ -1,6 +1,7 @@
 package core.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +23,14 @@ public class ModelObjectKindImpl extends KindImpl implements ModelObjectKind {
 		super(iri);
 	}
 
+	@Override
+	public Set<ModelObject> getObjects() {
+		Set<ModelObject> ret = new HashSet<ModelObject>();
+		for(Resource res : super.getInstances())
+			ret.addAll(ModelObjects.getInstance().getObjects(null, null, null, res));
+		return ret;
+	}
+	
 	@Override
 	public Set<ModelObject> getInstanceObjects(Resource instance) {
 		return ModelObjects.getInstance().getObjects(null, null, null, instance);

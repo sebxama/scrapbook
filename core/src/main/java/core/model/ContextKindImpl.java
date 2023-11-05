@@ -1,6 +1,7 @@
 package core.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +19,14 @@ public class ContextKindImpl extends KindImpl implements ContextKind {
 	
 	private ContextKindImpl(Resource iri) {
 		super(iri);
+	}
+	
+	@Override
+	public Set<Context> getContexts() {
+		Set<Context> ret = new HashSet<Context>();
+		for(Resource res : super.getInstances())
+			ret.addAll(Contexts.getInstance().getContexts(res, null, null, null));
+		return ret;
 	}
 	
 	@Override

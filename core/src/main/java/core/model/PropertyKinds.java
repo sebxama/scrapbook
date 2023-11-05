@@ -42,26 +42,5 @@ public class PropertyKinds {
 		}
 		return ret;
 	}
-
-	/**
-	 * Once Aggregated (FCA), Resource Occurrences Kinds merged / updated.
-	 * Populate corresponding Kind Statements from Kinds in Statements resources.
-	 * @param Optional context, subject, property, object Resource filters.
-	 * @return Aggregated Kinds schema KindStatement(s).
-	 */
-	public Set<KindStatement> getKindStatements(Resource context, Resource subject, Resource property, Resource object) {
-		Set<KindStatement> ret = new HashSet<KindStatement>();
-		Set<Statement> stats = Statements.getInstance().getStatements(context, subject, property, object);
-		for(Statement stat : stats) {
-			Resource iri = Resource.getKindStatementResource((ContextKind)stat.getContext().getKind(), (SubjectKind)stat.getSubject().getKind(), (PropertyKind)stat.getProperty().getKind(), (ModelObjectKind)stat.getObject().getKind());
-			KindStatement kstat = new KindStatement(iri);
-			kstat.setContext((ContextKind)stat.getContext().getKind());
-			kstat.setSubject((SubjectKind)stat.getSubject().getKind());
-			kstat.setProperty((PropertyKind)stat.getProperty().getKind());
-			kstat.setObject((ModelObjectKind)stat.getObject().getKind());
-			ret.add(kstat);
-		}
-		return ret;
-	}
 	
 }

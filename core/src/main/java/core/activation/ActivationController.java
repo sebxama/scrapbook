@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import core.aggregation.AggregationService;
 import core.alignment.AlignmentService;
 import core.model.KindStatement;
+import core.model.KindStatements;
 import reactor.core.publisher.Mono;
 
 // Infer state / flow: contexts / interactions.
@@ -41,7 +42,7 @@ public class ActivationController {
 		aggregationService.performSubjectKindsAggregation();
 		aggregationService.performPropertyKindsAggregation();
 		aggregationService.performObjectKindsAggregation();
-		Set<KindStatement> set = KindStatements.getInstance().getKindStatements();
+		Set<KindStatement> set = KindStatements.getInstance().getKindStatements(null, null, null, null);
 		alignmentService.performSubjectKindsAlignment(set);
 		activationService.performSubjectKindsActivation(set);
 		return Mono.just("OK");

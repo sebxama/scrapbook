@@ -44,5 +44,14 @@ public class KindStatements {
 		}
 		return ret;
 	}
+	
+	public Set<SubjectKind> getSubjectKinds(ContextKind context, SubjectKind subject, PropertyKind property, ModelObjectKind object) {
+		Set<SubjectKind> ret = new HashSet<SubjectKind>();
+		Set<KindStatement> stats = getKindStatements(context, subject, property, object);
+		for(KindStatement stat : stats) {
+			ret.add(stat.getSubject());
+		}
+		return ret;
+	}
 
 }

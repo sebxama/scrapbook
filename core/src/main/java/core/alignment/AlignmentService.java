@@ -91,7 +91,8 @@ public class AlignmentService {
 				}
 			}
 			// TODO: Association Rule Mining. Assert Attributes by Support / Confidence.
-            System.out.println("Support: "+impl.toString()+": "+Computation.computeImplicationSupport(impl, fcaContext));
+            
+			System.out.println("Support: "+impl.toString()+": "+Computation.computeImplicationSupport(impl, fcaContext));
             System.out.println("Confidence: "+impl.toString()+": "+Computation.computeConfidence(impl, fcaContext));
         }
 		
@@ -125,7 +126,7 @@ public class AlignmentService {
         			}
         		}
         		for(KindStatement stat : KindStatements.getInstance().getKindStatements(null, SubjectKindImpl.getInstance(inst), null, null)) {
-        			stat.setSubject(kind);
+        			stat.getSubject().setKind(kind);
         		}
         	}
         	//System.out.println(concept.getExtent().stream().map(ObjectAPI::getObjectID).collect(Collectors.toList())+";");
@@ -134,13 +135,13 @@ public class AlignmentService {
 		
         System.out.println();
         
-        for(SubjectKind kind : SubjectKinds.getInstance().getSubjectKinds(null, null, null, null)) {
-        	System.out.println("KIND: "+kind);
-        	for(core.model.Resource inst : kind.getInstances()) {
+        for(SubjectKind kind : KindStatements.getInstance().getSubjectKinds(null, null, null, null)) {
+        	System.out.println("KIND: "+kind.getKind());
+        	for(core.model.Resource inst : kind.getKind().getInstances()) {
         		System.out.println("INSTANCE: "+inst);
-        		for(core.model.Resource attr : kind.getAttributes(inst)) {
+        		for(core.model.Resource attr : kind.getKind().getAttributes(inst)) {
         			System.out.println("ATTRIBUTE:"+attr);
-        			for(core.model.Resource value : kind.getValues(inst, attr)) {
+        			for(core.model.Resource value : kind.getKind().getValues(inst, attr)) {
         				System.out.println("VALUE:"+value);
         			}
         		}

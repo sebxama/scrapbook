@@ -260,14 +260,23 @@ public class AggregationService {
 		OutputPrinter.printConceptsToConsole(fcaContext);
 		OutputPrinter.printStemBaseToConsole(fcaContext);
 		
-		for(Implication<String,String> impl : Computation.computeStemBase(fcaContext)){
+		for(Implication<String,String> impl : Computation.computeStemBase(fcaContext)) {
+			for(Attribute<String, String> attr : impl.getConclusion()) {
+				if(attr.getAttributeID().equals("file:///home/sebastian/Downloads/d2rq-master/vocab/funcion_tickets_sold")) {
+					System.out.println("TICKETS_SOLD: "+attr.getAttributeID());
+					System.out.println("IMPLICATION: "+impl);
+				}
+			}
 			List<ObjectAPI<String, String>> list = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
 			for(ObjectAPI<String, String> obj : list) {
+				System.out.println("Implication object: "+obj.getObjectID());
 				for(Attribute<String, String> attr : impl.getConclusion()) {
 					obj.addAttribute(attr.getAttributeID());
+					System.out.println("Implication addAttribute "+attr.getAttributeID());
 				}
 			}
 			// TODO: Association Rule Mining. Assert Attributes by Support / Confidence.
+			System.out.println("Implication: "+impl);
             System.out.println("Support: "+impl.toString()+": "+Computation.computeImplicationSupport(impl, fcaContext));
             System.out.println("Confidence: "+impl.toString()+": "+Computation.computeConfidence(impl, fcaContext));
         }

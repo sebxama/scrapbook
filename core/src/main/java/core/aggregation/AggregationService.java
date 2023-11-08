@@ -2,6 +2,7 @@ package core.aggregation;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,6 +38,7 @@ import fcalib.api.fca.ObjectAPI;
 import fcalib.api.utils.OutputPrinter;
 import fcalib.lib.fca.FCAAttribute;
 import fcalib.lib.fca.FCAFormalContext;
+import fcalib.lib.fca.FCAImplication;
 import fcalib.lib.fca.FCAObject;
 import reactor.core.publisher.Flux;
 import core.model.Property;
@@ -253,12 +255,63 @@ public class AggregationService {
 				fcaContext.addObject(ob1);
 			}
 		}
+		
+		// Computation.reduceContext(fcaContext);
 
+		System.out.println("CONCEPTS ASSOCIATION RULE MINING IMPLICATIONS");
+        List<List<Attribute<String,String>>> closures2 = Computation.computeAllClosures(fcaContext);
+        List<Concept<String,String>> concepts2 = Computation.computeAllConcepts(closures2, fcaContext);
+        for(int i=0; i < concepts2.size(); i ++) {
+			for(int j = i+1; j < concepts2.size(); j++) {
+				
+				Concept<String, String> con1 = concepts2.get(i);
+				Concept<String, String> con2 = concepts2.get(j);
+
+				// Intersection
+				List<Attribute<String, String>> list = new ArrayList<Attribute<String, String>>();
+				for (Attribute<String, String> t : con1.getIntent()) {
+					if(con2.getIntent().contains(t)) {
+						list.add(t);
+					}
+				}
+				
+				boolean subsumes = list.equals(con1.getIntent());
+				if(!subsumes)
+					continue;
+				
+				Implication<String, String> impl = new FCAImplication<String, String>();
+				impl.setPremise(con1.getIntent());
+				impl.setConclusion(con2.getIntent());
+				impl.setSupport(con2.getExtent().size());
+				if(con2.getExtent().size() > 0)
+					impl.setConfidence(con1.getExtent().size() / con2.getExtent().size());
+				
+				if(impl.getSupport() < 1 && impl.getConfidence() < 1.0)
+					continue;
+				
+				if(con1.getExtent().size() - con2.getExtent().size() > 1)
+					continue;
+				
+				System.out.println(impl);
+				
+				List<ObjectAPI<String, String>> listObj = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
+				for(ObjectAPI<String, String> obj : listObj) {
+					for(Attribute<String, String> attr : impl.getConclusion()) {
+						obj.addAttribute(attr.getAttributeID());
+						attr.addObject(obj.getObjectID());
+					}
+				}
+			}
+		}
+		
+        /*
 		System.out.println("FCA4J IMPLICATIONS:");
 		for(Implication impl : Computation.computeStemBase2(fcaContext)) {
 			System.out.println("Implication: "+impl);
 		}
+		*/
 		
+        /*
 		System.out.println("FCALib2 Implications: ");
 		for(Implication<String,String> impl : Computation.computeStemBase(fcaContext)) {
 			List<ObjectAPI<String, String>> list = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
@@ -275,6 +328,7 @@ public class AggregationService {
             System.out.println("Support: "+impl.toString()+": "+Computation.computeImplicationSupport(impl, fcaContext));
             System.out.println("Confidence: "+impl.toString()+": "+Computation.computeConfidence(impl, fcaContext));
         }
+		*/
 		
 		// Attributes Objects has in common
 		// Computation.computePrimeOfObjects(null, null);

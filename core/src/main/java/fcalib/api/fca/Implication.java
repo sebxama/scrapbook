@@ -18,6 +18,10 @@ public interface Implication<O,A> {
 	void setSupport(int support);
 	
 	int getSupport();
+
+	void setConfidence(double confidence);
+	
+	double getConfidence();
 	
     /**
      * Sets the Premise of this Implication.

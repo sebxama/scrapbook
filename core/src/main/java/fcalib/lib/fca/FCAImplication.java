@@ -22,6 +22,7 @@ import fcalib.api.fca.Implication;
 public class FCAImplication<O,A> implements Implication<O,A> {
 
 	private int support;
+	private double confidence;
 	
     /**
      * Premise of an Implication.
@@ -78,7 +79,7 @@ public class FCAImplication<O,A> implements Implication<O,A> {
      * @return A String representation of the current Implication.
      */
     public String toString(){
-        return "("+this.support+") "+this.premise.stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"->"+this.conclusion.stream().map(Attribute::getAttributeID).collect(Collectors.toList());
+        return "(Support: "+this.support+"; Confidence: "+this.confidence+") "+this.premise.stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"->"+this.conclusion.stream().map(Attribute::getAttributeID).collect(Collectors.toList());
     }
 
 	@Override
@@ -91,6 +92,18 @@ public class FCAImplication<O,A> implements Implication<O,A> {
 	public int getSupport() {
 		// TODO Auto-generated method stub
 		return this.support;
+	}
+
+	@Override
+	public void setConfidence(double confidence) {
+		// TODO Auto-generated method stub
+		this.confidence = confidence;
+	}
+
+	@Override
+	public double getConfidence() {
+		// TODO Auto-generated method stub
+		return this.confidence;
 	}
 
 }

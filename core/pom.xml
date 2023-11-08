@@ -28,6 +28,27 @@
 </dependencyManagement>
 
 	<dependencies>
+
+<dependency>
+    <groupId>fr.lirmm.fca4j</groupId>
+    <artifactId>fca4j-app</artifactId>
+    <version>0.4.3</version>
+</dependency>
+<dependency>
+    <groupId>fr.lirmm.fca4j</groupId>
+    <artifactId>fca4j-core</artifactId>
+    <version>0.4.3</version>
+</dependency>
+<dependency>
+    <groupId>fr.lirmm.fca4j</groupId>
+    <artifactId>fca4j-iset</artifactId>
+    <version>0.4.3</version>
+</dependency>
+<dependency>
+    <groupId>fr.lirmm.fca4j</groupId>
+    <artifactId>fca4j-iset-ext</artifactId>
+    <version>0.4.3</version>
+</dependency>
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

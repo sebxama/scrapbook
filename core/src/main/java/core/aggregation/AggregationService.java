@@ -253,25 +253,20 @@ public class AggregationService {
 				fcaContext.addObject(ob1);
 			}
 		}
-				
-		System.out.println("DONE FCA");
+
+		System.out.println("FCA4J IMPLICATIONS:");
+		for(Implication impl : Computation.computeStemBase2(fcaContext)) {
+			System.out.println("Implication: "+impl);
+		}
 		
-		OutputPrinter.printCrosstableToConsole(fcaContext);
-		OutputPrinter.printConceptsToConsole(fcaContext);
-		OutputPrinter.printStemBaseToConsole(fcaContext);
-		
+		System.out.println("FCALib2 Implications: ");
 		for(Implication<String,String> impl : Computation.computeStemBase(fcaContext)) {
-			for(Attribute<String, String> attr : impl.getConclusion()) {
-				if(attr.getAttributeID().equals("file:///home/sebastian/Downloads/d2rq-master/vocab/funcion_tickets_sold")) {
-					System.out.println("TICKETS_SOLD: "+attr.getAttributeID());
-					System.out.println("IMPLICATION: "+impl);
-				}
-			}
 			List<ObjectAPI<String, String>> list = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
 			for(ObjectAPI<String, String> obj : list) {
 				System.out.println("Implication object: "+obj.getObjectID());
 				for(Attribute<String, String> attr : impl.getConclusion()) {
 					obj.addAttribute(attr.getAttributeID());
+					attr.addObject(obj.getObjectID());
 					System.out.println("Implication addAttribute "+attr.getAttributeID());
 				}
 			}
@@ -286,9 +281,13 @@ public class AggregationService {
 		
 		// Objects Attributes has in common.
 		// Computation.computePrimeOfAttributes(null, null);
+
+		OutputPrinter.printCrosstableToConsole(fcaContext);
+		OutputPrinter.printConceptsToConsole(fcaContext);
+		OutputPrinter.printStemBaseToConsole(fcaContext);
 		
 		System.out.println("DONE PRINT");
-		
+
         List<List<Attribute<String,String>>> closures = Computation.computeAllClosures(fcaContext);
         List<Concept<String,String>> concepts = Computation.computeAllConcepts(closures, fcaContext);
         for(Concept<String,String> concept : concepts) {
@@ -318,7 +317,7 @@ public class AggregationService {
         		}
         	}
         	//System.out.println(concept.getExtent().stream().map(ObjectAPI::getObjectID).collect(Collectors.toList())+";");
-            System.out.println(concept.getIntent().stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"\n");
+            //System.out.println(concept.getIntent().stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"\n");
         }
 		
         System.out.println();

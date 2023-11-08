@@ -13,6 +13,12 @@ import java.util.List;
  */
 public interface Implication<O,A> {
 
+	// TODO, FIXME: Subclass Implication for FCA4J Support (cardinality).
+	
+	void setSupport(int support);
+	
+	int getSupport();
+	
     /**
      * Sets the Premise of this Implication.
      * @param premise List of Attributes.

@@ -5,7 +5,19 @@ import org.apache.commons.collections4.CollectionUtils;
 import fcalib.lib.fca.*;
 import fcalib.lib.utils.IndexedList;
 import fcalib.lib.utils.Pair;
+import fr.lirmm.fca4j.algo.ClosureDirect;
+import fr.lirmm.fca4j.algo.ClosureStrategy;
+import fr.lirmm.fca4j.algo.LinCbO;
+import fr.lirmm.fca4j.algo.LinCbOWithPruning;
+import fr.lirmm.fca4j.core.BinaryContext;
+import fr.lirmm.fca4j.core.IBinaryContext;
+import fr.lirmm.fca4j.iset.AbstractSetContext;
+import fr.lirmm.fca4j.iset.ISet;
+import fr.lirmm.fca4j.iset.ISetFactory;
+import fr.lirmm.fca4j.main.SetContextComplete;
+import fr.lirmm.fca4j.util.Chrono;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -426,6 +438,107 @@ public interface Computation {
         return attributes;
     }
 
+    // TODO: Use the implementation of fca4j of stem base computation.
+    static <O,A,T extends Context<O,A>> List<Implication> computeStemBase2(T context){
+    	AbstractSetContext setContext = new SetContextComplete();
+    	Chrono chrono = new Chrono("lincbo");
+    	ISetFactory factory = setContext.getDefaultFactory();
+    	IBinaryContext ctx = new BinaryContext(context.getContextObjects().size(), context.getContextAttributes().size(), "Context from FCALib2", factory);
+    	for(ObjectAPI<O,A> obj : context.getContextObjects()) {
+    		if(ctx.getObjectIndex(obj.getObjectID().toString()) == -1)
+    			ctx.addObjectName(obj.getObjectID().toString());
+    		for(Object attrObj : obj.getDualEntities()) {
+    			String attr = (String) attrObj;
+    			if(ctx.getAttributeIndex(attr) == -1)
+        			ctx.addAttributeName(attr);
+        		ctx.set(ctx.getObjectIndex(obj.getObjectID().toString()), ctx.getAttributeIndex(attr), true);
+    		}
+    	}
+    	ClosureStrategy closureStrategy = new ClosureDirect(ctx);
+    	LinCbOWithPruning linCbO = new LinCbOWithPruning(ctx, chrono, closureStrategy, true);
+    	linCbO.run();
+    	List<fr.lirmm.fca4j.core.Implication> res = linCbO.getResult();
+    	
+    	System.out.println("Print sorted implications:");
+    	printSortedImplications(new PrintWriter(System.out), res, ctx);
+    	
+    	// TODO: Extend Implication for FCA4J Support (cardinality)
+    	List<Implication> ret = new ArrayList<Implication>();
+    	for(fr.lirmm.fca4j.core.Implication impl : res) {
+    		System.out.println("IMPL: "+impl);
+    		Implication imp = new FCAImplication();
+    		Iterator<Integer> itp = impl.getPremise().iterator();
+    		while(itp.hasNext()) {
+    			// FIXME:
+    			Attribute<O, A> attr = context.getAttribute((A)ctx.getAttributeName(itp.next()));
+    			imp.getPremise().add(attr);
+    		}
+    		Iterator<Integer> itc = impl.getConclusion().iterator();
+    		while(itc.hasNext()) {
+    			// FIXME:
+    			Attribute<O, A> attr = context.getAttribute((A)ctx.getAttributeName(itc.next()));
+    			imp.getConclusion().add(attr);
+    		}
+    		imp.setSupport(impl.getSupport().cardinality());
+    		ret.add(imp);
+    	}
+    	return ret;
+    }
+
+	/**
+	 * Display attributes.
+	 *
+	 * @param set the set
+	 * @return the string
+	 */
+	static String displayAttrs(ISet set, IBinaryContext ctx) {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<Integer> it = set.iterator(); it.hasNext();) {
+			if (sb.length() != 0) {
+				sb.append(",");
+			}
+			sb.append(ctx.getAttributeName(it.next()));
+		}
+		return sb.toString();
+	}
+    
+	/**
+	 * Prints the implications.
+	 *
+	 * @param printWriter the print writer
+	 * @param implications the implications
+	 */
+	static void printImplications(PrintWriter printWriter, List<fr.lirmm.fca4j.core.Implication> implications, IBinaryContext ctx) {
+		for (fr.lirmm.fca4j.core.Implication implication : implications) {
+			printWriter.printf("<%d> %s => %s\n", implication.getSupport().cardinality(), displayAttrs(implication.getPremise(), ctx),
+					displayAttrs(implication.getConclusion(), ctx));
+		}
+
+	}
+
+	/**
+	 * Prints sorted implications.
+	 *
+	 * @param printWriter the print writer
+	 * @param implications the implications
+	 */
+	static void printSortedImplications(PrintWriter printWriter, List<fr.lirmm.fca4j.core.Implication> implications, IBinaryContext ctx) {
+		TreeMap<Integer, List<fr.lirmm.fca4j.core.Implication>> map = new TreeMap<>();
+
+		for (fr.lirmm.fca4j.core.Implication implication : implications) {
+			List<fr.lirmm.fca4j.core.Implication> list = map.get(implication.getSupport().cardinality());
+			if (list == null) {
+				list = new ArrayList<>();
+				map.put(implication.getSupport().cardinality(), list);
+			}
+			list.add(implication);
+		}
+		for (int support : map.keySet()) {
+			printImplications(printWriter, map.get(support), ctx);
+
+		}
+	}
+    
     /**
      * Computes the Stem Base of the Context Object.
      * Note: The Stem Base is computed by using the

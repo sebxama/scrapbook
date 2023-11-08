@@ -21,6 +21,8 @@ import fcalib.api.fca.Implication;
  */
 public class FCAImplication<O,A> implements Implication<O,A> {
 
+	private int support;
+	
     /**
      * Premise of an Implication.
      */
@@ -76,7 +78,19 @@ public class FCAImplication<O,A> implements Implication<O,A> {
      * @return A String representation of the current Implication.
      */
     public String toString(){
-        return this.premise.stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"->"+this.conclusion.stream().map(Attribute::getAttributeID).collect(Collectors.toList());
+        return "("+this.support+") "+this.premise.stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"->"+this.conclusion.stream().map(Attribute::getAttributeID).collect(Collectors.toList());
     }
+
+	@Override
+	public void setSupport(int support) {
+		// TODO Auto-generated method stub
+		this.support = support;
+	}
+
+	@Override
+	public int getSupport() {
+		// TODO Auto-generated method stub
+		return this.support;
+	}
 
 }

@@ -1,5 +1,6 @@
 package fcalib.api.fca;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,13 +16,13 @@ public interface Implication<O,A> {
 
 	// TODO, FIXME: Subclass Implication for FCA4J Support (cardinality).
 	
-	void setSupport(int support);
+	void setSupport(BigDecimal support);
 	
-	int getSupport();
+	BigDecimal getSupport();
 
-	void setConfidence(double confidence);
+	void setConfidence(BigDecimal confidence);
 	
-	double getConfidence();
+	BigDecimal getConfidence();
 	
     /**
      * Sets the Premise of this Implication.

@@ -7,6 +7,7 @@ package fcalib.lib.fca;
  * @version 0.1
  */
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +22,8 @@ import fcalib.api.fca.Implication;
  */
 public class FCAImplication<O,A> implements Implication<O,A> {
 
-	private int support;
-	private double confidence;
+	private BigDecimal support;
+	private BigDecimal confidence;
 	
     /**
      * Premise of an Implication.
@@ -83,25 +84,25 @@ public class FCAImplication<O,A> implements Implication<O,A> {
     }
 
 	@Override
-	public void setSupport(int support) {
+	public void setSupport(BigDecimal support) {
 		// TODO Auto-generated method stub
 		this.support = support;
 	}
 
 	@Override
-	public int getSupport() {
+	public BigDecimal getSupport() {
 		// TODO Auto-generated method stub
 		return this.support;
 	}
 
 	@Override
-	public void setConfidence(double confidence) {
+	public void setConfidence(BigDecimal confidence) {
 		// TODO Auto-generated method stub
 		this.confidence = confidence;
 	}
 
 	@Override
-	public double getConfidence() {
+	public BigDecimal getConfidence() {
 		// TODO Auto-generated method stub
 		return this.confidence;
 	}

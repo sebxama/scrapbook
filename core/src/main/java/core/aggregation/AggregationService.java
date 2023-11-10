@@ -259,50 +259,20 @@ public class AggregationService {
 		// Computation.reduceContext(fcaContext);
 
 		System.out.println("CONCEPTS ASSOCIATION RULE MINING IMPLICATIONS");
+		
         List<List<Attribute<String,String>>> closures2 = Computation.computeAllClosures(fcaContext);
         List<Concept<String,String>> concepts2 = Computation.computeAllConcepts(closures2, fcaContext);
-        for(int i=0; i < concepts2.size(); i ++) {
-			for(int j = i+1; j < concepts2.size(); j++) {
-				
-				Concept<String, String> con1 = concepts2.get(i);
-				Concept<String, String> con2 = concepts2.get(j);
-
-				// Intersection
-				List<Attribute<String, String>> list = new ArrayList<Attribute<String, String>>();
-				for (Attribute<String, String> t : con1.getIntent()) {
-					if(con2.getIntent().contains(t)) {
-						list.add(t);
-					}
-				}
-				
-				boolean subsumes = list.equals(con1.getIntent());
-				if(!subsumes)
-					continue;
-				
-				Implication<String, String> impl = new FCAImplication<String, String>();
-				impl.setPremise(con1.getIntent());
-				impl.setConclusion(con2.getIntent());
-				impl.setSupport(con2.getExtent().size());
-				if(con2.getExtent().size() > 0)
-					impl.setConfidence(con1.getExtent().size() / con2.getExtent().size());
-				
-				if(impl.getSupport() < 1 && impl.getConfidence() < 1.0)
-					continue;
-				
-				if(con1.getExtent().size() - con2.getExtent().size() > 1)
-					continue;
-				
-				System.out.println(impl);
-				
-				List<ObjectAPI<String, String>> listObj = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
-				for(ObjectAPI<String, String> obj : listObj) {
-					for(Attribute<String, String> attr : impl.getConclusion()) {
-						obj.addAttribute(attr.getAttributeID());
-						attr.addObject(obj.getObjectID());
-					}
-				}
-			}
-		}
+        List<Implication<String, String>> implications2 = Computation.computeConceptsImplications(concepts2, fcaContext);
+        for(Implication<String, String> impl : implications2) {
+        	System.out.println(impl);
+        	List<ObjectAPI<String, String>> listObj = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
+        	for(ObjectAPI<String, String> obj : listObj) {
+        		for(Attribute<String, String> attr : impl.getConclusion()) {
+        			obj.addAttribute(attr.getAttributeID());
+        			attr.addObject(obj.getObjectID());
+        		}
+        	}
+        }
 		
         /*
 		System.out.println("FCA4J IMPLICATIONS:");
@@ -311,24 +281,20 @@ public class AggregationService {
 		}
 		*/
 		
-        /*
-		System.out.println("FCALib2 Implications: ");
-		for(Implication<String,String> impl : Computation.computeStemBase(fcaContext)) {
-			List<ObjectAPI<String, String>> list = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
-			for(ObjectAPI<String, String> obj : list) {
-				System.out.println("Implication object: "+obj.getObjectID());
-				for(Attribute<String, String> attr : impl.getConclusion()) {
-					obj.addAttribute(attr.getAttributeID());
-					attr.addObject(obj.getObjectID());
-					System.out.println("Implication addAttribute "+attr.getAttributeID());
-				}
-			}
-			// TODO: Association Rule Mining. Assert Attributes by Support / Confidence.
-			System.out.println("Implication: "+impl);
-            System.out.println("Support: "+impl.toString()+": "+Computation.computeImplicationSupport(impl, fcaContext));
-            System.out.println("Confidence: "+impl.toString()+": "+Computation.computeConfidence(impl, fcaContext));
-        }
-		*/
+//		System.out.println("FCALib2 Implications: ");
+//		for(Implication<String,String> impl : Computation.computeStemBase(fcaContext)) {
+//			List<ObjectAPI<String, String>> list = Computation.computePrimeOfAttributes(impl.getPremise(), fcaContext);
+//			for(ObjectAPI<String, String> obj : list) {
+//				System.out.println("Implication object: "+obj.getObjectID());
+//				for(Attribute<String, String> attr : impl.getConclusion()) {
+//					obj.addAttribute(attr.getAttributeID());
+//					attr.addObject(obj.getObjectID());
+//					System.out.println("Implication addAttribute "+attr.getAttributeID());
+//				}
+//			}
+//			// TODO: Association Rule Mining. Assert Attributes by Support / Confidence.
+//			System.out.println("Implication: "+impl);
+//        }
 		
 		// Attributes Objects has in common
 		// Computation.computePrimeOfObjects(null, null);
@@ -346,6 +312,7 @@ public class AggregationService {
         List<Concept<String,String>> concepts = Computation.computeAllConcepts(closures, fcaContext);
         for(Concept<String,String> concept : concepts) {
         	// TODO: Merged Kinds Resource IRIs
+        	System.out.println(concept);
         	core.model.Resource kindRes = core.model.Resource.get(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	SubjectKind kind = SubjectKindImpl.getInstance(kindRes);
         	System.out.println("SubjectKind: "+kind);
@@ -370,6 +337,7 @@ public class AggregationService {
         			// kind.setKind(kind); TODO: Super Kind subset of this Concept Attributes.
         		}
         	}
+        	System.out.println();
         	//System.out.println(concept.getExtent().stream().map(ObjectAPI::getObjectID).collect(Collectors.toList())+";");
             //System.out.println(concept.getIntent().stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"\n");
         }

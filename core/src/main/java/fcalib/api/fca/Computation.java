@@ -479,7 +479,7 @@ public interface Computation {
     			Attribute<O, A> attr = context.getAttribute((A)ctx.getAttributeName(itc.next()));
     			imp.getConclusion().add(attr);
     		}
-    		imp.setSupport(impl.getSupport().cardinality());
+    		imp.setSupport(BigDecimal.valueOf(impl.getSupport().cardinality()));
     		ret.add(imp);
     	}
     	return ret;
@@ -538,7 +538,41 @@ public interface Computation {
 
 		}
 	}
-    
+
+	static <O,A,T extends Concept<O,A>> boolean subsumes(T con1, T con2) {
+		// Intersection
+		List<Attribute<O, A>> list = new ArrayList<Attribute<O, A>>();
+		for (Attribute<O, A> t : con1.getIntent()) {
+			if(con2.getIntent().contains(t)) {
+				list.add(t);
+			}
+		}
+		boolean subsumes = list.equals(con1.getIntent());
+		return subsumes;
+	}
+	
+	static <O,A,T extends Concept<O,A>, U extends Context<O, A>> List<Implication<O,A>> computeConceptsImplications(List<T> concepts, U context) {
+		List<Implication<O, A>> ret = new ArrayList<Implication<O, A>>();
+		for(int i=0; i < concepts.size(); i ++) {
+			for(int j = i+1; j < concepts.size(); j++) {
+				Concept<O, A> con1 = concepts.get(i);
+				Concept<O, A> con2 = concepts.get(j);
+				if(!subsumes(con1, con2))
+					continue;
+				Implication<O, A> impl = new FCAImplication<O, A>();
+				impl.setPremise(con1.getIntent());
+				impl.setConclusion(con2.getIntent());
+				impl.setSupport(computeImplicationSupport(impl, context)); // FIXME: Wrong values?
+				impl.setConfidence(computeConfidence(impl, context)); // FIXME: Wrong values?
+				if(con1.getExtent().size() - con2.getExtent().size() > 1)
+					continue;
+				
+				ret.add(impl);
+			}
+		}
+		return ret;
+	}
+	
     /**
      * Computes the Stem Base of the Context Object.
      * Note: The Stem Base is computed by using the

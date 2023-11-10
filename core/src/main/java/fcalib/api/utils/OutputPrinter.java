@@ -252,7 +252,9 @@ public interface OutputPrinter {
         System.out.println("Stem Base of the context with ID: "+context.getContextID());
         System.out.println("Implications with the premise on the left and the conclusion on the right.");
         for(Implication<O,A> impl : Computation.computeStemBase(context)){
-            System.out.print(impl.toString()+" "+Computation.computeImplicationSupport(impl,context)+"\n");
+        	impl.setSupport(Computation.computeImplicationSupport(impl,context));
+        	impl.setConfidence(Computation.computeConfidence(impl, context));
+            System.out.print(impl.toString()+"\n");
         }
     }
     /**

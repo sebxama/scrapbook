@@ -340,12 +340,21 @@ public class AggregationService {
         	System.out.println();
         	//System.out.println(concept.getExtent().stream().map(ObjectAPI::getObjectID).collect(Collectors.toList())+";");
             //System.out.println(concept.getIntent().stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"\n");
+        	for(Concept<String, String> concept2 : concepts) {
+        		if(concept2.getExtent().equals(concept.getExtent()) && concept2.getIntent().equals(concept.getIntent()))
+        			continue;
+        		if(Computation.subsumes(concept2, concept)) {
+                	core.model.Resource sKindRes = core.model.Resource.get(concept2.getExtent().hashCode() + ":" + concept2.getIntent().hashCode());
+                	SubjectKind skind = SubjectKindImpl.getInstance(sKindRes);
+                	kind.setSuperKind(skind);
+        		}
+        	}
         }
 		
         System.out.println();
         
         for(SubjectKind kind : SubjectKinds.getInstance().getSubjectKinds(null, null, null, null)) {
-        	System.out.println("KIND: "+kind);
+        	System.out.println("KIND: "+kind+"; SUPERKIND:"+kind.getSuperKind());
         	for(core.model.Resource inst : kind.getInstances()) {
         		System.out.println("INSTANCE: "+inst);
         		for(core.model.Resource attr : kind.getAttributes(inst)) {

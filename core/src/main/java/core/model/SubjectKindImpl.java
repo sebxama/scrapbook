@@ -23,7 +23,7 @@ public class SubjectKindImpl extends KindImpl implements SubjectKind {
 	private SubjectKindImpl(Resource iri) {
 		super(iri);
 	}
-
+	
 	@Override
 	public Set<Subject> getSubjects() {
 		Set<Subject> ret = new HashSet<Subject>();
@@ -38,13 +38,13 @@ public class SubjectKindImpl extends KindImpl implements SubjectKind {
 	}
 
 	@Override
-	public Set<Property> getAttributeProperties(Resource attribute) {
-		return Properties.getInstance().getProperties(null, null, attribute, null);
+	public Set<Property> getAttributeProperties(Resource instance, Resource attribute) {
+		return Properties.getInstance().getProperties(null, instance, attribute, null);
 	}
 
 	@Override
-	public Set<ModelObject> getAttributeValues(Resource value) {
-		return ModelObjects.getInstance().getObjects(null, null, null, value);
+	public Set<ModelObject> getValueObjects(Resource attribute, Resource value) {
+		return ModelObjects.getInstance().getObjects(null, null, attribute, value);
 	}
 
 }

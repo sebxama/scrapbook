@@ -10,4 +10,8 @@ public interface Kind extends ResourceOccurrence {
 	
 	public Set<Resource> getValues(Resource instance, Resource attribute);
 	
+	public void setSuperKind(Kind kind);
+	
+	public Kind getSuperKind();
+	
 }

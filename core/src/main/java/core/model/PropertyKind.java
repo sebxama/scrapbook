@@ -6,10 +6,10 @@ public interface PropertyKind extends Context, Subject, Property, ModelObject, K
 
 	public Set<Property> getProperties();
 	
-	public Set<Property> getInstanceProperties(Resource resource);
+	public Set<Property> getInstanceProperties(Resource instance);
 	
-	public Set<Subject> getAttributeSubjects(Resource resource);
+	public Set<Subject> getAttributeSubjects(Resource instance, Resource attribute);
 	
-	public Set<ModelObject> getValueObjects(Resource resource);
+	public Set<ModelObject> getValueObjects(Resource attribute, Resource value);
 	
 }

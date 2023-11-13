@@ -22,7 +22,7 @@ public class ModelObjectKindImpl extends KindImpl implements ModelObjectKind {
 	private ModelObjectKindImpl(Resource iri) {
 		super(iri);
 	}
-
+	
 	@Override
 	public Set<ModelObject> getObjects() {
 		Set<ModelObject> ret = new HashSet<ModelObject>();
@@ -37,13 +37,13 @@ public class ModelObjectKindImpl extends KindImpl implements ModelObjectKind {
 	}
 
 	@Override
-	public Set<Property> getAttributeProperties(Resource attribute) {
-		return Properties.getInstance().getProperties(null, null, attribute, null);
+	public Set<Property> getAttributeProperties(Resource instance, Resource attribute) {
+		return Properties.getInstance().getProperties(null, null, attribute, instance);
 	}
 
 	@Override
-	public Set<Subject> getValueSubjects(Resource value) {
-		return Subjects.getInstance().getSubjects(null, value, null, null);
+	public Set<Subject> getValueSubjects(Resource attribute, Resource value) {
+		return Subjects.getInstance().getSubjects(null, value, attribute, null);
 	}
 	
 }

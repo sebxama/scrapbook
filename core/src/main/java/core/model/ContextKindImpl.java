@@ -35,13 +35,13 @@ public class ContextKindImpl extends KindImpl implements ContextKind {
 	}
 
 	@Override
-	public Set<Property> getAttributeProperties(Resource attribute) {
-		return Properties.getInstance().getProperties(null, null, attribute, null);
+	public Set<Property> getAttributeProperties(Resource instance, Resource attribute) {
+		return Properties.getInstance().getProperties(instance, null, attribute, null);
 	}
 
 	@Override
-	public Set<ModelObject> getAttributeValues(Resource value) {
-		return ModelObjects.getInstance().getObjects(null, null, null, value);
+	public Set<ModelObject> getValueObjects(Resource attribute, Resource value) {
+		return ModelObjects.getInstance().getObjects(null, null, attribute, value);
 	}
 	
 }

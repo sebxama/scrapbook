@@ -10,8 +10,8 @@ public interface SubjectKind extends Context, Subject, Property, ModelObject, Ki
 	
 	public Set<Subject> getInstanceSubjects(Resource instance);
 	
-	public Set<Property> getAttributeProperties(Resource attribute);
+	public Set<Property> getAttributeProperties(Resource instance, Resource attribute);
 	
-	public Set<ModelObject> getAttributeValues(Resource value);
+	public Set<ModelObject> getValueObjects(Resource attribute, Resource value);
 	
 }

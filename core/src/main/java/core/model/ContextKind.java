@@ -8,8 +8,8 @@ public interface ContextKind extends Context, Kind {
 	
 	public Set<Context> getInstanceContexts(Resource instance);
 	
-	public Set<Property> getAttributeProperties(Resource attribute);
+	public Set<Property> getAttributeProperties(Resource instance, Resource attribute);
 	
-	public Set<ModelObject> getAttributeValues(Resource value);
+	public Set<ModelObject> getValueObjects(Resource attribute, Resource value);
 	
 }

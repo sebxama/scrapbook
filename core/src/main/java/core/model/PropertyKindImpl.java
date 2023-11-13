@@ -20,7 +20,7 @@ public class PropertyKindImpl extends KindImpl implements PropertyKind {
 	private PropertyKindImpl(Resource iri) {
 		super(iri);
 	}
-
+	
 	@Override
 	public Set<Property> getProperties() {
 		Set<Property> ret = new HashSet<Property>();
@@ -35,13 +35,13 @@ public class PropertyKindImpl extends KindImpl implements PropertyKind {
 	}
 
 	@Override
-	public Set<Subject> getAttributeSubjects(Resource attribute) {
-		return Subjects.getInstance().getSubjects(null, attribute, null, null);
+	public Set<Subject> getAttributeSubjects(Resource instance, Resource attribute) {
+		return Subjects.getInstance().getSubjects(null, attribute, instance, null);
 	}
 
 	@Override
-	public Set<ModelObject> getValueObjects(Resource value) {
-		return ModelObjects.getInstance().getObjects(null, null, null, value);
+	public Set<ModelObject> getValueObjects(Resource attribute, Resource value) {
+		return ModelObjects.getInstance().getObjects(null, attribute, null, value);
 	}
 	
 }

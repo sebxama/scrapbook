@@ -6,10 +6,10 @@ public interface ModelObjectKind extends Context, Subject, Property, ModelObject
 
 	public Set<ModelObject> getObjects();
 	
-	public Set<ModelObject> getInstanceObjects(Resource resource);
+	public Set<ModelObject> getInstanceObjects(Resource instance);
 	
-	public Set<Property> getAttributeProperties(Resource resource);
+	public Set<Property> getAttributeProperties(Resource instance, Resource attribute);
 	
-	public Set<Subject> getValueSubjects(Resource resource);
+	public Set<Subject> getValueSubjects(Resource attribute, Resource value);
 	
 }

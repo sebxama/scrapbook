@@ -5,11 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class KindImpl extends ResourceOccurrenceImpl implements Kind {
+public abstract class KindImpl extends ResourceOccurrenceImpl implements Kind {
 	
 	private Set<Resource> instances;
 	private Map<Resource, Set<Resource>> attributes;
 	private Map<Resource, Map<Resource, Set<Resource>>> values;
+	
+	private Kind superKind;
 	
 	public KindImpl(Resource iri) {
 		super(iri);
@@ -18,6 +20,16 @@ public class KindImpl extends ResourceOccurrenceImpl implements Kind {
 		this.values = new HashMap<>();
 	}
 
+	@Override
+	public void setSuperKind(Kind k) {
+		this.superKind = k;
+	}
+	
+	@Override
+	public Kind getSuperKind() {
+		return this.superKind;
+	}
+	
 	public Set<Resource> getInstances() {
 		return instances;
 	}

@@ -14,7 +14,7 @@ The (Spring Boot) Application is configured (application.properties) to read it'
 
 ### Application Demo
 
-The current development achieved property based type inference and association rule mining (infer attributes by means of [FCA](https://towardsdatascience.com/a-demystifying-introduction-to-formal-context-analysis-fca-ab8ce029782e)). For running one should start the RDF Repository Server RDF4J Web Application loaded with some data as stated before and start the server (SpringBoot MVN based project). Then point your browser, according to your configuration, to one of the RESTController endpoints configured: for example: (http://localhost:8181/core/aggregation/performAggregation)[http://localhost:8181/core/aggregation/performAggregation]. By now it only prints debug statements to the console that depicts what's happening in the inference and aggregation processes.
+The current development achieved property based type inference and association rule mining (infer attributes by means of [FCA](https://towardsdatascience.com/a-demystifying-introduction-to-formal-context-analysis-fca-ab8ce029782e)). For running one should start the RDF Repository Server RDF4J Web Application loaded with some data as stated before and start the server (SpringBoot MVN based project). Then point your browser, according to your configuration, to one of the RESTController endpoints configured: for example: [http://localhost:8181/core/aggregation/performAggregation](http://localhost:8181/core/aggregation/performAggregation). Currently it only aggregate Subjects and it only prints debug statements to the console that depicts what's happening in the inference and aggregation processes.
 
 ## Next Steps
 

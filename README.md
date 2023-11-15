@@ -6,6 +6,22 @@ Hello, World! I'm Sebastian Samaruga (ssamarug@gmail.com), software developer fr
 But what has got me scratching my head a lot in the last couple of years is the "Semantic Web". I know it is a technology paradigm far away from it's realization. But, perhaps, with the advent of Big Data and such it could finally find its niche.
 Meanwhile I dump all my head scratching thoughts into this blog and a related GitHub repository I'd like to share. It is an endless work in progress draft and a scrapbook of spare assorted ideas waiting to be realized...
 
+## Features
+
+This is basically an outline of the features being to be provided in a working application / service.
+
+### Aggregation
+
+Attribute based type inference. If a set of subjects share the same properties, for example: 'worksFor' and 'hasPosition' they will be aggregated into an 'Employee' type.
+
+### Augmentation
+
+Attributes and basic link prediction.
+
+### Activation
+
+Expose types and resources as roles and actors in a use case driven (Contexts / Interactions) fashion.
+
 ## Installation
 
 ### RDF4J Repository

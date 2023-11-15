@@ -14,9 +14,9 @@ This is basically an outline of the features being to be provided in a working a
 
 Attribute based type inference. If a set of subjects share the same properties, for example: 'worksFor' and 'hasPosition' they will be aggregated into an 'Employee' type.
 
-### Augmentation
+### Augmentation / Alignment
 
-Attributes and basic link prediction.
+Attributes and basic link prediction. Alignment to upper ontologies. Ontology Matching.
 
 ### Activation
 

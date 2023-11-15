@@ -30,10 +30,10 @@ In principle, everything is a Resource (RDF Paradigm) and should be network retr
 
 So, the API / Protocol should be 'discoverable' in a machine readable fashion for exposing the client agents to possible actions given a current context and interaction of roles / actors states. Possible implementation choices includes:
 
-JAF (Java Beans Activation Framework): [Jakarta Activation](https://jakarta.ee/specifications/activation/2.1/jakarta-activation-spec-2.1) - [This Article](https://www.infoworld.com/article/2077786/rest-easy-with-the-javabeans-activation-framework.html?page=1)
-Apache Isis (Restful Objects): [Here](https://causeway.apache.org/versions/1.14.0/guides/ugvro.html)
-HAL (Hypertext Application Language): [Here](https://stateless.co/hal_specification.html)
-Spring REST HATEOAS (Hypermedia As The Engine Of Application State) Implementation: [Docs](https://docs.spring.io/spring-hateoas/docs/current/reference/html/) 
+JAF (Java Beans Activation Framework): [Jakarta Activation](https://jakarta.ee/specifications/activation/2.1/jakarta-activation-spec-2.1) - [This Article](https://www.infoworld.com/article/2077786/rest-easy-with-the-javabeans-activation-framework.html?page=1)<br />
+Apache Isis (Restful Objects): [Here](https://causeway.apache.org/versions/1.14.0/guides/ugvro.html)<br />
+HAL (Hypertext Application Language): [Here](https://stateless.co/hal_specification.html)<br />
+Spring REST HATEOAS (Hypermedia As The Engine Of Application State) Implementation: [Docs](https://docs.spring.io/spring-hateoas/docs/current/reference/html/)<br />
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 

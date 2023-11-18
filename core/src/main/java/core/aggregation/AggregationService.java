@@ -313,9 +313,11 @@ public class AggregationService {
         for(Concept<String,String> concept : concepts) {
         	// TODO: Merged Kinds Resource IRIs
         	System.out.println(concept);
+        	System.out.println(concept.getExtent().stream().map(ObjectAPI::getObjectID).collect(Collectors.toList())+";");
+            System.out.println(concept.getIntent().stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"\n");
         	core.model.Resource kindRes = core.model.Resource.get(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	SubjectKind kind = SubjectKindImpl.getInstance(kindRes);
-        	System.out.println("SubjectKind: "+kind);
+        	System.out.println("SubjectKind: "+kind+"; SuperKind: "+kind.getSuperKind());
         	for(ObjectAPI<String, String> extent : concept.getExtent()) {
         		core.model.Resource inst = core.model.Resource.get(extent.getObjectID().toString());
         		kind.getInstances().add(inst);
@@ -354,7 +356,7 @@ public class AggregationService {
         System.out.println();
         
         for(SubjectKind kind : SubjectKinds.getInstance().getSubjectKinds(null, null, null, null)) {
-        	System.out.println("KIND: "+kind+"; SUPERKIND:"+kind.getSuperKind());
+        	System.out.println("KIND: "+kind+"; SUPERKIND: "+kind.getSuperKind());
         	for(core.model.Resource inst : kind.getInstances()) {
         		System.out.println("INSTANCE: "+inst);
         		for(core.model.Resource attr : kind.getAttributes(inst)) {

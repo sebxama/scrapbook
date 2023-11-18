@@ -22,26 +22,21 @@ public class ContextKindImpl extends KindImpl implements ContextKind {
 	}
 	
 	@Override
-	public Set<Context> getContexts() {
+	public Set<Context> getInstanceContexts() {
 		Set<Context> ret = new HashSet<Context>();
 		for(Resource res : super.getInstances())
 			ret.addAll(Contexts.getInstance().getContexts(res, null, null, null));
 		return ret;
 	}
-	
+
 	@Override
-	public Set<Context> getInstanceContexts(Resource instance) {
-		return Contexts.getInstance().getContexts(instance, null, null, null);
+	public Set<Property> getAttributeProperties(Resource instance) {
+		return Properties.getInstance().getProperties(instance, null, null, null);
 	}
 
 	@Override
-	public Set<Property> getAttributeProperties(Resource instance, Resource attribute) {
-		return Properties.getInstance().getProperties(instance, null, attribute, null);
-	}
-
-	@Override
-	public Set<ModelObject> getValueObjects(Resource attribute, Resource value) {
-		return ModelObjects.getInstance().getObjects(null, null, attribute, value);
+	public Set<ModelObject> getValueObjects(Resource instance, Resource attribute) {
+		return ModelObjects.getInstance().getObjects(instance, null, attribute, null);
 	}
 	
 }

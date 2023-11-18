@@ -22,26 +22,21 @@ public class PropertyKindImpl extends KindImpl implements PropertyKind {
 	}
 	
 	@Override
-	public Set<Property> getProperties() {
+	public Set<Property> getInstanceProperties() {
 		Set<Property> ret = new HashSet<Property>();
 		for(Resource res : super.getInstances())
 			ret.addAll(Properties.getInstance().getProperties(null, null, res, null));
 		return ret;
 	}
-	
+
 	@Override
-	public Set<Property> getInstanceProperties(Resource instance) {
-		return Properties.getInstance().getProperties(null, null, instance, null);
+	public Set<Subject> getAttributeSubjects(Resource instance) {
+		return Subjects.getInstance().getSubjects(null, null, instance, null);
 	}
 
 	@Override
-	public Set<Subject> getAttributeSubjects(Resource instance, Resource attribute) {
-		return Subjects.getInstance().getSubjects(null, attribute, instance, null);
-	}
-
-	@Override
-	public Set<ModelObject> getValueObjects(Resource attribute, Resource value) {
-		return ModelObjects.getInstance().getObjects(null, attribute, null, value);
+	public Set<ModelObject> getValueObjects(Resource instance, Resource attribute) {
+		return ModelObjects.getInstance().getObjects(null, attribute, instance, null);
 	}
 	
 }

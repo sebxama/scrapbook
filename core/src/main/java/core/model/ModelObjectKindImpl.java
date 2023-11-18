@@ -24,26 +24,21 @@ public class ModelObjectKindImpl extends KindImpl implements ModelObjectKind {
 	}
 	
 	@Override
-	public Set<ModelObject> getObjects() {
+	public Set<ModelObject> getInstanceObjects() {
 		Set<ModelObject> ret = new HashSet<ModelObject>();
 		for(Resource res : super.getInstances())
 			ret.addAll(ModelObjects.getInstance().getObjects(null, null, null, res));
 		return ret;
 	}
-	
+
 	@Override
-	public Set<ModelObject> getInstanceObjects(Resource instance) {
-		return ModelObjects.getInstance().getObjects(null, null, null, instance);
+	public Set<Property> getAttributeProperties(Resource instance) {
+		return Properties.getInstance().getProperties(null, null, null, instance);
 	}
 
 	@Override
-	public Set<Property> getAttributeProperties(Resource instance, Resource attribute) {
-		return Properties.getInstance().getProperties(null, null, attribute, instance);
-	}
-
-	@Override
-	public Set<Subject> getValueSubjects(Resource attribute, Resource value) {
-		return Subjects.getInstance().getSubjects(null, value, attribute, null);
+	public Set<Subject> getValueSubjects(Resource instance, Resource attribute) {
+		return Subjects.getInstance().getSubjects(null, null, attribute, instance);
 	}
 	
 }

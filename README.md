@@ -18,7 +18,7 @@ Attribute based type inference. If a set of subjects share the same properties, 
 
 Aggregation is performed in what is called 'Kinds'. There is a Kind type for every Statement Context, Subject, Predicate and Object (CSPO). Kinds aggregate CSPO Occurrences Resources by its instances, attributes & values. For the Context Kind, instances are the Statement Context, attributes are the Statement Predicate and the values are the Statement Objects. For the Subject Kind, the instances are the Statement Subject, the attributes are the Statement Predicate and the values are the Statement Object. For the Property Kind, the instances are the Statements Predicate, the attributes are the Statement Subject and the values are the Statement Object. For the Object Kind the instances are the Statement Object, the attributes are the Statement Predicate and the values are the Statement Subject.
 
-This way we are typing not only Subjects, but also their relationships (Predicates) and their property values (Objects).
+This way we are aggregating and typing not only Subjects (Employee), but also their relationships (Predicates: Employment) and their property values (Objects: Employeer).
 
 ### Augmentation / Alignment
 
@@ -29,7 +29,7 @@ Attributes and basic link prediction. Alignment to upper ontologies. Ontology an
 In the beginning every CSPO Statement is an Implication (fact). By means of Context aggregation (Context Kind) and Kinds Aggregation a Rule Statement (KindStatement) can be asserted in the way:
 
 ```
-(context: ContextKind, LHS: SubjectKind, Concept: PropertyKind, RHS: ObjectKind)
+(context: ContextKind, LHS: SubjectKind, Concept: PropertyKind, RHS: ObjectKind);
 ```
 
 So, a Rule stating:
@@ -40,7 +40,7 @@ So, a Rule stating:
 
 produces / matches the Statements:
 ```
-(:aSon, :aSonFather, :fatherBrother, :aSonUncle).
+(:aSon, :aSonFather, :fatherBrother, :aSonUncle);
 ```
 
 Rules can be asserted / inferred or come from an Upper Ontology aligning / Ontology Matching process.

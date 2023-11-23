@@ -12,7 +12,7 @@ This is basically an outline of the features being to be provided in a working a
 
 ### Aggregation
 
-Attribute based type inference. If a set of subjects share the same properties, for example: 'worksFor' and 'hasPosition' they will be aggregated into an 'Employee' type. FCA enabled type Aggregation.
+Attribute based type inference. If a set of subjects share the same properties, for example: 'worksFor' and 'hasPosition' they will be aggregated into an 'Employee' type. [FCA](https://towardsdatascience.com/a-demystifying-introduction-to-formal-context-analysis-fca-ab8ce029782e) enabled type Aggregation.
 
 #### Kinds
 

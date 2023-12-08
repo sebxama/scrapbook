@@ -2,7 +2,9 @@ package core.model;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Resource: IRI plus 'PrimeID' for FCA Concepts
@@ -11,19 +13,17 @@ import java.util.Map;
  */
 public class Resource {
 
-	private static BigInteger lastPrime = BigInteger.TWO;
 	private static Map<String, Resource> resources = new HashMap<String, Resource>();
 	
 	private String iri;
-	private BigInteger primeId;
+	private Set<ResourceOccurrence> resourceOccurrences;
 	
 	private Resource(String iri) {
 		this.iri = iri;
-		primeId = lastPrime.nextProbablePrime();
-		lastPrime = BigInteger.valueOf(primeId.longValue());
+		this.resourceOccurrences = new HashSet<ResourceOccurrence>();
 	}
 	
-	public static Resource get(String iri) {
+	public static Resource getResource(String iri) {
 		Resource res = resources.get(iri);
 		if(res == null) {
 			res = new Resource(iri);
@@ -40,41 +40,8 @@ public class Resource {
 		this.iri = iri;
 	}
 	
-	public BigInteger getPrimeID() {
-		return this.primeId;
-	}
-	
-	public void setPrimeID(BigInteger primeId) {
-		this.primeId = primeId;
-	}
-
-	public boolean isFactorOf(BigInteger number) {
-		// TODO: Implement.
-		return false;
-	}
-	
-	public static Resource getContextResource(String iri) {
-		return get(iri);
-	}
-
-	public static Resource getSubjectResource(String iri) {
-		return get(iri);
-	}
-
-	public static Resource getPropertyResource(String iri) {
-		return get(iri);
-	}
-
-	public static Resource getObjectResource(String iri) {
-		return get(iri);
-	}
-	
-	public static Resource getStatementResource(Context context, Subject subject, Property property, ModelObject object) {
-		return get("urn:statement:" + context.getResource().getPrimeID() + ":" + subject.getResource().getPrimeID() + ":" + property.getResource().getPrimeID() + ":" + object.getResource().getPrimeID());
-	}
-
-	public static Resource getKindStatementResource(ContextKind context, SubjectKind subject, PropertyKind property, ModelObjectKind object) {
-		return get("urn:kindStatement:" + context.getResource().getPrimeID() + ":" + subject.getResource().getPrimeID() + ":" + property.getResource().getPrimeID() + ":" + object.getResource().getPrimeID());
+	public Set<ResourceOccurrence> getResourceOccurrences() {
+		return this.resourceOccurrences;
 	}
 	
 	public String toString() {

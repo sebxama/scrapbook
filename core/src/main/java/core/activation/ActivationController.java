@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import core.aggregation.AggregationService;
 import core.alignment.AlignmentService;
-import core.model.KindStatement;
+import core.model.KindStatementImpl;
 import core.model.KindStatements;
 import reactor.core.publisher.Mono;
 
@@ -37,14 +37,14 @@ public class ActivationController {
 		String query = null;
 		String[] rules = null;
 		System.out.println("performActivation");
-		aggregationService.loadRepositoryStatements(query, rules);
-		aggregationService.performContextKindsAggregation();
-		aggregationService.performSubjectKindsAggregation();
-		aggregationService.performPropertyKindsAggregation();
-		aggregationService.performObjectKindsAggregation();
-		Set<KindStatement> set = KindStatements.getInstance().getKindStatements(null, null, null, null);
-		alignmentService.performSubjectKindsAlignment(set);
-		activationService.performSubjectKindsActivation(set);
+//		aggregationService.loadRepositoryStatements(query, rules);
+//		aggregationService.performContextKindsAggregation();
+//		aggregationService.performSubjectKindsAggregation();
+//		aggregationService.performPropertyKindsAggregation();
+//		aggregationService.performObjectKindsAggregation();
+//		Set<KindStatement> set = KindStatements.getInstance().getKindStatements(null, null, null, null);
+//		alignmentService.performSubjectKindsAlignment(set);
+//		activationService.performSubjectKindsActivation(set);
 		return Mono.just("OK");
 	}
 	

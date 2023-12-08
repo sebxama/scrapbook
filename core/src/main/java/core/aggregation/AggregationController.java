@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import core.model.Statement;
 import core.model.Subject;
 import core.model.SubjectKind;
-import core.model.KindStatement;
+import core.model.KindStatementImpl;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -47,10 +47,7 @@ public class AggregationController {
 		String[] rules = null;
 		System.out.println("performAggregation");
 		aggregationService.loadRepositoryStatements(query, rules);
-		aggregationService.performContextKindsAggregation();
 		aggregationService.performSubjectKindsAggregation();
-		aggregationService.performPropertyKindsAggregation();
-		aggregationService.performObjectKindsAggregation();
 		return Mono.just("OK");
 	}
 
@@ -66,10 +63,7 @@ public class AggregationController {
 		query = null;
 		rules = null;
 		aggregationService.loadRepositoryStatements(query, rules);
-		aggregationService.performContextKindsAggregation();
 		aggregationService.performSubjectKindsAggregation();
-		aggregationService.performPropertyKindsAggregation();
-		aggregationService.performObjectKindsAggregation();
 		return Mono.just("OK");
 	}
 	

@@ -2,12 +2,12 @@ package core.model;
 
 import java.util.Set;
 
-public interface ContextKind extends Context, Kind {
+public interface ContextKind extends Context, Subject, Property, ModelObject, Kind {
+
+	public Set<Context> getInstances();
 	
-	public Set<Context> getInstanceContexts();
+	public Set<Property> getAttributes(Context instance);
 	
-	public Set<Property> getAttributeProperties(Resource instance);
-	
-	public Set<ModelObject> getValueObjects(Resource instance, Resource attribute);
+	public Set<ModelObject> getValues(Context instance, Property attribute);
 	
 }

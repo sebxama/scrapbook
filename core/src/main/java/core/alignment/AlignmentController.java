@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import core.aggregation.AggregationService;
-import core.model.KindStatement;
+import core.model.KindStatementImpl;
 import core.model.KindStatements;
 import reactor.core.publisher.Mono;
 
@@ -36,19 +36,19 @@ public class AlignmentController {
 	public Mono<String> performAlignment() {
 		String query = null;
 		String[] rules = null;
-		System.out.println("performAlignment");
-		aggregationService.loadRepositoryStatements(query, rules);
-		System.out.println("contexts");
-		aggregationService.performContextKindsAggregation();
-		System.out.println("subjects");
-		aggregationService.performSubjectKindsAggregation();
-		System.out.println("properties");
-		aggregationService.performPropertyKindsAggregation();
-		System.out.println("objects");
-		aggregationService.performObjectKindsAggregation();
-		System.out.println("alignment");
-		Set<KindStatement> set = KindStatements.getInstance().getKindStatements(null, null, null, null);
-		alignmentService.performSubjectKindsAlignment(set);
+//		System.out.println("performAlignment");
+//		aggregationService.loadRepositoryStatements(query, rules);
+//		System.out.println("contexts");
+//		aggregationService.performContextKindsAggregation();
+//		System.out.println("subjects");
+//		aggregationService.performSubjectKindsAggregation();
+//		System.out.println("properties");
+//		aggregationService.performPropertyKindsAggregation();
+//		System.out.println("objects");
+//		aggregationService.performObjectKindsAggregation();
+//		System.out.println("alignment");
+//		Set<KindStatement> set = KindStatements.getInstance().getKindStatements(null, null, null, null);
+//		alignmentService.performSubjectKindsAlignment(set);
 		return Mono.just("OK");
 	}
 

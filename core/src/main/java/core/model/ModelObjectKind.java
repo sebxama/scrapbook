@@ -4,10 +4,10 @@ import java.util.Set;
 
 public interface ModelObjectKind extends Context, Subject, Property, ModelObject, Kind {
 	
-	public Set<ModelObject> getInstanceObjects();
+	public Set<ModelObject> getInstances();
 	
-	public Set<Property> getAttributeProperties(Resource instance);
+	public Set<Property> getAttributes(ModelObject instance);
 	
-	public Set<Subject> getValueSubjects(Resource instance, Resource attribute);
+	public Set<Subject> getValues(ModelObject instance, Property attribute);
 	
 }

@@ -1,6 +1,6 @@
 package core.model;
 
-public interface Statement extends Context, Subject, Property, ModelObject {
+public interface Statement {
 
 	public Context getContext();
 	

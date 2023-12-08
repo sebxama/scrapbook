@@ -1,15 +1,13 @@
 package core.model;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public interface SubjectKind extends Context, Subject, Property, ModelObject, Kind {
 	
-	public Set<Subject> getInstanceSubjects();
+	public Set<Subject> getInstances();
 	
-	public Set<Property> getAttributeProperties(Resource instance);
+	public Set<Property> getAttributes(Subject instance);
 	
-	public Set<ModelObject> getValueObjects(Resource instance, Resource attribute);
+	public Set<ModelObject> getValues(Subject instance, Property attribute);
 	
 }

@@ -29,13 +29,29 @@ public class Statements {
 		this.statements.add(stat);
 	}
 
-	public StatementImpl addStatement(Context ctx, Subject subj, Property prop, ModelObject obj) {
-		Resource iri = Resource.getStatementResource(ctx, subj, prop, obj);
-		StatementImpl stat = new StatementImpl(iri);
+	public Statement addStatement(Context ctx, Subject subj, Property prop, ModelObject obj) {
+		StatementImpl stat = new StatementImpl();
 		stat.setContext(ctx);
 		stat.setSubject(subj);
 		stat.setProperty(prop);
 		stat.setObject(obj);
+		
+		ctx.setContextStatement(stat);
+		ctx.getResource().getResourceOccurrences().add(ctx);
+		ctx.getKind().getResource().getResourceOccurrences().add(ctx);
+
+		subj.setContextStatement(stat);
+		subj.getResource().getResourceOccurrences().add(subj);
+		subj.getKind().getResource().getResourceOccurrences().add(subj);
+		
+		prop.setContextStatement(stat);
+		prop.getResource().getResourceOccurrences().add(prop);
+		prop.getKind().getResource().getResourceOccurrences().add(prop);
+		
+		obj.setContextStatement(stat);
+		obj.getResource().getResourceOccurrences().add(obj);
+		obj.getKind().getResource().getResourceOccurrences().add(obj);
+		
 		addStatement(stat);
 		return stat;
 	}

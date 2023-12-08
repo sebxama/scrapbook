@@ -5,58 +5,95 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class KindImpl extends ResourceOccurrenceImpl implements Kind {
+public abstract class KindImpl<INST extends ResourceOccurrence, ATTR extends ResourceOccurrence, VAL extends ResourceOccurrence> extends ResourceOccurrenceImpl implements Kind {
 	
-	private Set<Resource> instances;
-	private Map<Resource, Set<Resource>> attributes;
-	private Map<Resource, Map<Resource, Set<Resource>>> values;
+	private Set<INST> instances;
+	private Map<INST, Set<ATTR>> attributes;
+	private Map<INST, Map<ATTR, Set<VAL>>> values;
 	
-	private Kind superKind;
+	private Set<Kind> superKinds;
+	private Set<Kind> subKinds;
 	
 	public KindImpl(Resource iri) {
 		super(iri);
 		this.instances = new HashSet<>();
 		this.attributes = new HashMap<>();
 		this.values = new HashMap<>();
-	}
-
-	@Override
-	public void setSuperKind(Kind k) {
-		this.superKind = k;
+		this.superKinds = new HashSet<Kind>();
+		this.subKinds = new HashSet<Kind>();
 	}
 	
-	@Override
-	public Kind getSuperKind() {
-		return this.superKind;
+	public Set<Kind> getSuperKinds() {
+		return this.superKinds;
 	}
 	
-	public Set<Resource> getInstances() {
+	public Set<Kind> getSubKinds() {
+		return this.subKinds;
+	}
+	
+	public Set<INST> getInstances() {
 		return instances;
 	}
 
-	public Set<Resource> getAttributes(Resource instance) {
-		Set<Resource> ret = attributes.get(instance);
+	public Set<ATTR> getAttributes(INST instance) {
+		Set<ATTR> ret = attributes.get(instance);
 		if(ret == null) {
-			ret = new HashSet<Resource>();
+			ret = new HashSet<ATTR>();
 			attributes.put(instance, ret);
 		}
 		return ret;
 	}
 
-	public Set<Resource> getValues(Resource instance, Resource attribute) {
-		Map<Resource, Set<Resource>> inst = values.get(instance);
+	public Set<VAL> getValues(INST instance, ATTR attribute) {
+		Map<ATTR, Set<VAL>> inst = values.get(instance);
 		if(inst == null) {
-			inst = new HashMap<Resource, Set<Resource>>();
+			inst = new HashMap<ATTR, Set<VAL>>();
 			values.put(instance, inst);
 		}
-		Set<Resource> vals = inst.get(attribute);
+		Set<VAL> vals = inst.get(attribute);
 		if(vals == null) {
-			vals = new HashSet<Resource>();
+			vals = new HashSet<VAL>();
 			inst.put(attribute, vals);
 		}
 		return vals;
 	}
 
+	@Override
+	public Set<Resource> getInstancesResources() {
+		Set<Resource> ret = new HashSet<Resource>();
+		for(INST inst : instances) {
+			ret.add(inst.getResource());
+		}
+		return ret;
+	}
+
+	@Override
+	public Set<Resource> getAttributesResources(Resource instance) {
+		Set<Resource> ret = new HashSet<Resource>();
+		for(INST inst : instances) {
+			for(ATTR attr : getAttributes(inst)) {
+				if(inst.getResource().getIRI().equals(instance.getIRI()))
+					ret.add(attr.getResource());
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public Set<Resource> getValuesResources(Resource instance, Resource attribute) {
+		Set<Resource> ret = new HashSet<Resource>();
+		for(INST inst : instances) {
+			if(inst.getResource().getIRI().equals(instance.getIRI())) {
+				for(ATTR attr : getAttributes(inst))
+					if(attr.getResource().getIRI().equals(attribute.getIRI()))
+						for(VAL val : getValues(inst, attr))
+							ret.add(val.getResource());				
+			}
+
+		}
+		return ret;
+	}
+	
 	@Override
 	public String toString() {
 		String ret = this.getClass().getCanonicalName() + " : " + this.getResource().toString();

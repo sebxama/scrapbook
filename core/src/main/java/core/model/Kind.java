@@ -4,14 +4,14 @@ import java.util.Set;
 
 public interface Kind extends ResourceOccurrence {
 	
-	public Set<Resource> getInstances();
+	public Set<Kind> getSuperKinds();
 	
-	public Set<Resource> getAttributes(Resource instance);
+	public Set<Kind> getSubKinds();
 	
-	public Set<Resource> getValues(Resource instance, Resource attribute);
+	public Set<Resource> getInstancesResources();
 	
-	public void setSuperKind(Kind kind);
+	public Set<Resource> getAttributesResources(Resource instance);
 	
-	public Kind getSuperKind();
+	public Set<Resource> getValuesResources(Resource instance, Resource attribute);
 	
 }

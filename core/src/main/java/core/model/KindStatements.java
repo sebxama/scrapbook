@@ -22,11 +22,10 @@ public class KindStatements {
 	 * @param Optional context, subject, property, object Resource filters.
 	 * @return Aggregated Kinds schema KindStatement(s).
 	 */
-	public Set<KindStatement> getKindStatements(ContextKind context, SubjectKind subject, PropertyKind property, ModelObjectKind object) {
-		Set<KindStatement> ret = new HashSet<KindStatement>();
+	public Set<KindStatementImpl> getKindStatements(ContextKind context, SubjectKind subject, PropertyKind property, ModelObjectKind object) {
+		Set<KindStatementImpl> ret = new HashSet<KindStatementImpl>();
 		Set<Statement> stats = Statements.getInstance().getStatements();
 		for(Statement stat : stats) {
-			Resource iri = Resource.getKindStatementResource((ContextKind)stat.getContext().getKind(), (SubjectKind)stat.getSubject().getKind(), (PropertyKind)stat.getProperty().getKind(), (ModelObjectKind)stat.getObject().getKind());
 			if(context != null && !context.equals(stat.getContext().getKind()))
 				continue;
 			if(subject != null && !subject.equals(stat.getSubject().getKind()))
@@ -35,7 +34,7 @@ public class KindStatements {
 				continue;
 			if(object != null && !object.equals(stat.getObject().getKind()))
 				continue;
-			KindStatement kstat = new KindStatement(iri);
+			KindStatementImpl kstat = new KindStatementImpl();
 			kstat.setContext((ContextKind)stat.getContext().getKind());
 			kstat.setSubject((SubjectKind)stat.getSubject().getKind());
 			kstat.setProperty((PropertyKind)stat.getProperty().getKind());
@@ -47,8 +46,8 @@ public class KindStatements {
 	
 	public Set<SubjectKind> getSubjectKinds(ContextKind context, SubjectKind subject, PropertyKind property, ModelObjectKind object) {
 		Set<SubjectKind> ret = new HashSet<SubjectKind>();
-		Set<KindStatement> stats = getKindStatements(context, subject, property, object);
-		for(KindStatement stat : stats) {
+		Set<KindStatementImpl> stats = getKindStatements(context, subject, property, object);
+		for(KindStatementImpl stat : stats) {
 			ret.add(stat.getSubject());
 		}
 		return ret;

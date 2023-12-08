@@ -547,7 +547,7 @@ public interface Computation {
 				list.add(t);
 			}
 		}
-		boolean subsumes = list.equals(con1.getIntent());
+		boolean subsumes = list.equals(con2.getIntent());
 		return subsumes;
 	}
 	

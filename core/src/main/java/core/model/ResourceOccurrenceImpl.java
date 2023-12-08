@@ -41,10 +41,10 @@ public abstract class ResourceOccurrenceImpl implements ResourceOccurrence {
 	
 	@Override
 	public String toString() {
-		String ret = this.getClass().getCanonicalName() + " : " + this.getResource().toString() + " ["+this.context.getResource().toString()+"]";
-		return ret;
+		return this.getResource().toString();
 	}
 	
+	/*
 	@Override
 	public int hashCode() {
 		return this.toString().hashCode();
@@ -54,5 +54,6 @@ public abstract class ResourceOccurrenceImpl implements ResourceOccurrence {
 	public boolean equals(java.lang.Object obj) {
 		return this.hashCode() == obj.hashCode();
 	}
+	*/
 	
 }

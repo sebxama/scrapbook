@@ -539,7 +539,7 @@ public interface Computation {
 		}
 	}
 
-	static <O,A,T extends Concept<O,A>> boolean subsumes(T con1, T con2) {
+	static <O,A,T extends Concept<O,A>> boolean subsumes(T con2, T con1) {
 		// Intersection
 		List<Attribute<O, A>> list = new ArrayList<Attribute<O, A>>();
 		for (Attribute<O, A> t : con1.getIntent()) {

@@ -14,7 +14,6 @@ public class SubjectKindImpl extends KindImpl<Subject, Property, ModelObject> im
 		SubjectKind ret = instances.get(key);
 		if(ret == null) {
 			ret = new SubjectKindImpl(key);
-			ret.setResource(key);
 			instances.put(key, ret);
 		}
 		return ret;

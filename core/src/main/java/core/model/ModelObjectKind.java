@@ -2,7 +2,7 @@ package core.model;
 
 import java.util.Set;
 
-public interface ModelObjectKind extends Context, Subject, Property, ModelObject, Kind {
+public interface ModelObjectKind extends Kind {
 	
 	public Set<ModelObject> getInstances();
 	

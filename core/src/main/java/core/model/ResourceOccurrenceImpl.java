@@ -37,6 +37,7 @@ public abstract class ResourceOccurrenceImpl implements ResourceOccurrence {
 	@Override
 	public void setKind(Kind kind) {
 		this.kind = kind;
+		kind.getResource().getResourceOccurrences().add(this);
 	}
 	
 	@Override

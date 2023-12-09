@@ -1,9 +1,5 @@
 package core.model;
 
-/**
- * Resource (IRI) Occurrence in Context Statement.
- *
- */
 public interface ResourceOccurrence {
 
 	public Resource getResource();

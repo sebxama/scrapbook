@@ -2,7 +2,9 @@ package core.model;
 
 import java.util.Set;
 
-public interface Kind extends ResourceOccurrence {
+public interface Kind {
+	
+	public Resource getResource();
 	
 	public Set<Kind> getSuperKinds();
 	

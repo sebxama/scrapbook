@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import core.model.Statement;
 import core.model.Subject;
 import core.model.SubjectKind;
-import core.model.KindStatementImpl;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

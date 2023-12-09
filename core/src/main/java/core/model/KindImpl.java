@@ -5,22 +5,30 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class KindImpl<INST extends ResourceOccurrence, ATTR extends ResourceOccurrence, VAL extends ResourceOccurrence> extends ResourceOccurrenceImpl implements Kind {
+public abstract class KindImpl	<INST extends ResourceOccurrence,
+								ATTR extends ResourceOccurrence,
+								VAL extends ResourceOccurrence> implements Kind {
 	
 	private Set<INST> instances;
 	private Map<INST, Set<ATTR>> attributes;
 	private Map<INST, Map<ATTR, Set<VAL>>> values;
 	
+	private Resource resource;
 	private Set<Kind> superKinds;
 	private Set<Kind> subKinds;
 	
 	public KindImpl(Resource iri) {
-		super(iri);
+		this.resource = iri;
 		this.instances = new HashSet<>();
 		this.attributes = new HashMap<>();
 		this.values = new HashMap<>();
 		this.superKinds = new HashSet<Kind>();
 		this.subKinds = new HashSet<Kind>();
+	}
+	
+	@Override
+	public Resource getResource() {
+		return this.resource;
 	}
 	
 	public Set<Kind> getSuperKinds() {

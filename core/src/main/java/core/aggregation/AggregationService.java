@@ -22,8 +22,6 @@ import core.model.ContextKind;
 import core.model.ContextKindImpl;
 import core.model.ContextKinds;
 import core.model.Contexts;
-import core.model.KindStatementImpl;
-import core.model.KindStatements;
 import core.model.Subject;
 import core.model.SubjectImpl;
 import core.model.SubjectKind;
@@ -150,7 +148,7 @@ public class AggregationService {
 		}
 	}
 	
-	public Set<KindStatementImpl> performSubjectKindsAggregation() {
+	public Set<Statement> performSubjectKindsAggregation() {
 
 		System.out.println("SUBJECTS");
 		
@@ -224,6 +222,7 @@ public class AggregationService {
         List<List<Attribute<String, String>>> closures = Computation.computeAllClosures(fcaContext);
         List<Concept<String, String>> concepts = Computation.computeAllConcepts(closures, fcaContext);
         for(Concept<String, String> concept : concepts) {
+        	
         	System.out.println(concept);
         	System.out.println(concept.getExtent().stream().map(ObjectAPI::getObjectID).collect(Collectors.toList())+";");
             System.out.println(concept.getIntent().stream().map(Attribute::getAttributeID).collect(Collectors.toList())+"\n");
@@ -231,35 +230,28 @@ public class AggregationService {
             core.model.Resource kindRes = core.model.Resource.getResource(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	SubjectKind kind = SubjectKindImpl.getInstance(kindRes);
         	System.out.println("SubjectKind: "+kind+"; SuperKinds: " + kind.getSuperKinds() +"; SubKinds: "+kind.getSubKinds());
+
         	for(ObjectAPI<String, String> extent : concept.getExtent()) {
-        		core.model.Resource instRes = core.model.Resource.getResource(extent.getObjectID());
-        		Subject subj = new SubjectImpl(instRes);
-        		kind.getInstances().add(subj);
-        		System.out.println("Instance: "+subj.getResource());
-            	for(Attribute<String, String> attribute : concept.getIntent()) {
-            		core.model.Resource attrRes = core.model.Resource.getResource(attribute.getAttributeID());
-            		Property prop = new PropertyImpl(attrRes);
-            		kind.getAttributes(subj).add(prop);
-            		System.out.println("Attribute: "+attribute.getAttributeID());
-            		for(ModelObject obj : ModelObjects.getInstance().getObjects(null, instRes, attrRes, null)) {
-                		ModelObject modelObj = new ModelObjectImpl(obj.getResource());
-            			kind.getValues(subj, prop).add(modelObj);
-                		System.out.println("Value: "+obj);
-                		for(Statement stat : Statements.getInstance().getStatements(null, instRes, attrRes, obj.getResource())) {
-                			stat.getSubject().setKind(kind);
-                		}
-            		}
+        		for(Attribute<String, String> attribute : concept.getIntent()) {
+        			for(Statement stat : Statements.getInstance().getStatements(null, extent.getObjectID(), attribute.getAttributeID(), null)) {
+        				stat.getSubject().setKind(kind);
+        				kind.getInstances().add(stat.getSubject());
+        				kind.getAttributes(stat.getSubject()).add(stat.getProperty());
+        				kind.getValues(stat.getSubject(), stat.getProperty()).add(stat.getObject());
+        			}
         		}
         	}
+        	
         	System.out.println();
+
         	for(Concept<String, String> concept2 : concepts) {
         		if(concept2.getExtent().equals(concept.getExtent()) && concept2.getIntent().equals(concept.getIntent()))
         			continue;
-        		if(Computation.subsumes(concept, concept2)) {
+        		if(Computation.subsumes(concept2, concept)) {
                 	core.model.Resource sKindRes = core.model.Resource.getResource(concept2.getExtent().hashCode() + ":" + concept2.getIntent().hashCode());
                 	SubjectKind skind = SubjectKindImpl.getInstance(sKindRes);
                 	kind.getSuperKinds().add(skind);
-        		} else if(Computation.subsumes(concept2, concept)) {
+        		} else if(Computation.subsumes(concept, concept2)) {
                 	core.model.Resource sKindRes = core.model.Resource.getResource(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
                 	SubjectKind skind = SubjectKindImpl.getInstance(sKindRes);
                 	kind.getSubKinds().add(skind);
@@ -289,13 +281,7 @@ public class AggregationService {
         	System.out.println("Statement: "+stat);
         }
         
-        System.out.println();
-        System.out.println("KINDSTATEMENTS: "+KindStatements.getInstance().getKindStatements(null, null, null, null).size());
-        for(KindStatementImpl kstat : KindStatements.getInstance().getKindStatements(null, null, null, null)) {
-        	System.out.println("KindStatement: "+kstat.hashCode());
-        }
-        
-		return KindStatements.getInstance().getKindStatements(null, null, null, null);
+		return Statements.getInstance().getStatements();
 	}
 	
 	// TODO: Implement for Context, Property, ModelObject Kinds.

@@ -1,10 +1,9 @@
 ![alt text](https://github.com/sebxama/scrapbook/raw/master/photo.png "Cognescent") 
 
-[<h2>Cognescent</h2>](https://github.com/users/sebxama/projects/1)
+[<h3>Cognescent</h3>](https://github.com/users/sebxama/projects/1)
 
 Hello, World! I'm Sebastian Samaruga (ssamarug@gmail.com), software developer from Buenos Aires, Argentina. I'm currently mildly seasoned in the development of business applications in the Java platform and related technologies and stacks.
-But what has got me scratching my head a lot in the last couple of years is the "Semantic Web". I know it is a technology paradigm far away from it's realization. But, perhaps, with the advent of Big Data and such it could finally find its niche.
-Meanwhile I dump all my head scratching thoughts into this blog and a related GitHub repository I'd like to share. It is an endless work in progress draft and a scrapbook of spare assorted ideas waiting to be realized...
+But what has got me scratching my head a lot in the last couple of years is the "Semantic Web". Here I'll deploy my thougts and a proposal of a framework for building Business Applications and Integration features.
 
 ## Features
 

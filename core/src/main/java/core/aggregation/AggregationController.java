@@ -48,6 +48,8 @@ public class AggregationController {
 		aggregationService.loadRepositoryStatements(query, rules);
 		aggregationService.performContextKindsAggregation();
 		aggregationService.performSubjectKindsAggregation();
+		aggregationService.performPropertyKindsAggregation();
+		aggregationService.performModelObjectKindsAggregation();
 		return Mono.just("OK");
 	}
 

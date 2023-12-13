@@ -272,6 +272,7 @@ public class AggregationService {
         	// TODO: Merged Kinds Resource IRIs (Primes product?)
             core.model.Resource kindRes = core.model.Resource.getResource(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	ContextKind kind = ContextKindImpl.getInstance(kindRes);
+        	kind.setConcept(concept);
         	System.out.println("ContextKind: "+kind+"; SuperKinds: " + kind.getSuperKinds() +"; SubKinds: "+kind.getSubKinds());
 
         	for(ObjectAPI<String, String> extent : concept.getExtent()) {
@@ -411,6 +412,7 @@ public class AggregationService {
         	// TODO: Merged Kinds Resource IRIs (Primes product?)
             core.model.Resource kindRes = core.model.Resource.getResource(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	SubjectKind kind = SubjectKindImpl.getInstance(kindRes);
+        	kind.setConcept(concept);
         	System.out.println("SubjectKind: "+kind+"; SuperKinds: " + kind.getSuperKinds() +"; SubKinds: "+kind.getSubKinds());
 
         	for(ObjectAPI<String, String> extent : concept.getExtent()) {
@@ -550,6 +552,7 @@ public class AggregationService {
         	// TODO: Merged Kinds Resource IRIs (Primes product?)
             core.model.Resource kindRes = core.model.Resource.getResource(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	PropertyKind kind = PropertyKindImpl.getInstance(kindRes);
+        	kind.setConcept(concept);
         	System.out.println("PropertyKind: "+kind+"; SuperKinds: " + kind.getSuperKinds() +"; SubKinds: "+kind.getSubKinds());
 
         	for(ObjectAPI<String, String> extent : concept.getExtent()) {
@@ -689,6 +692,7 @@ public class AggregationService {
         	// TODO: Merged Kinds Resource IRIs (Primes product?)
             core.model.Resource kindRes = core.model.Resource.getResource(concept.getExtent().hashCode() + ":" + concept.getIntent().hashCode());
         	ModelObjectKind kind = ModelObjectKindImpl.getInstance(kindRes);
+        	kind.setConcept(concept);
         	System.out.println("ModelObjectKind: "+kind+"; SuperKinds: " + kind.getSuperKinds() +"; SubKinds: "+kind.getSubKinds());
 
         	for(ObjectAPI<String, String> extent : concept.getExtent()) {

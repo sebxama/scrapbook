@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import fcalib.api.fca.Concept;
+
 public abstract class KindImpl	<INST extends ResourceOccurrence,
 								ATTR extends ResourceOccurrence,
 								VAL extends ResourceOccurrence> implements Kind {
@@ -16,6 +18,8 @@ public abstract class KindImpl	<INST extends ResourceOccurrence,
 	private Resource resource;
 	private Set<Kind> superKinds;
 	private Set<Kind> subKinds;
+	
+	private Concept<String, String> concept;
 	
 	public KindImpl(Resource iri) {
 		this.resource = iri;
@@ -29,6 +33,16 @@ public abstract class KindImpl	<INST extends ResourceOccurrence,
 	@Override
 	public Resource getResource() {
 		return this.resource;
+	}
+	
+	@Override
+	public Concept<String, String> getConcept() {
+		return this.concept;
+	}
+	
+	@Override
+	public void setConcept(Concept<String, String> concept) {
+		this.concept = concept;
 	}
 	
 	public Set<Kind> getSuperKinds() {

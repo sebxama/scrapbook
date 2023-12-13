@@ -2,6 +2,8 @@ package core.model;
 
 import java.util.Set;
 
+import fcalib.api.fca.Concept;
+
 public interface Kind {
 	
 	public Resource getResource();
@@ -9,6 +11,10 @@ public interface Kind {
 	public Set<Kind> getSuperKinds();
 	
 	public Set<Kind> getSubKinds();
+	
+	public Concept<String, String> getConcept();
+	
+	public void setConcept(Concept<String, String> concept);
 	
 	public Set<Resource> getInstancesResources();
 	

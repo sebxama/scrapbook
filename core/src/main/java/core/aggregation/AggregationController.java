@@ -68,5 +68,16 @@ public class AggregationController {
 		aggregationService.performSubjectKindsAggregation();
 		return Mono.just("OK");
 	}
+
+	@GetMapping("/retrieveXMLModel")
+	public Mono<String> retrieveXMLModel() {
+		try {
+			String ret = aggregationService.marshallStatements();
+			return Mono.just(ret);
+		} catch(Throwable t) {
+			t.printStackTrace();
+			return null;
+		}
+	}
 	
 }

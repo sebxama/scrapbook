@@ -1,5 +1,7 @@
 package core.aggregation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -41,12 +43,16 @@ import fcalib.lib.fca.FCAAttribute;
 import fcalib.lib.fca.FCAFormalContext;
 import fcalib.lib.fca.FCAImplication;
 import fcalib.lib.fca.FCAObject;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import reactor.core.publisher.Flux;
 import core.model.Property;
 import core.model.PropertyImpl;
 import core.model.PropertyKind;
 import core.model.PropertyKindImpl;
 import core.model.PropertyKinds;
+import core.model.ResourceOccurrence;
 import core.model.Statement;
 import core.model.StatementImpl;
 import core.model.ModelObject;
@@ -749,4 +755,111 @@ public class AggregationService {
 		return Statements.getInstance().getStatements();
 	}
 
+	public String marshallStatements() throws JAXBException, IOException {
+		
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		JAXBContext ctx = JAXBContext.newInstance(core.model.dto.Statement.class);
+		Marshaller marshaller = ctx.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		for(Statement stat : Statements.getInstance().getStatements()) {
+			
+			core.model.dto.Statement aStat = new core.model.dto.Statement();
+			core.model.dto.Context context = new core.model.dto.Context();
+			core.model.dto.Subject subject = new core.model.dto.Subject();
+			core.model.dto.Property property = new core.model.dto.Property();
+			core.model.dto.ModelObject object = new core.model.dto.ModelObject();
+			
+			core.model.dto.Resource ctxRes = new core.model.dto.Resource();
+			ctxRes.setIRI(stat.getContext().getKind().getResource().getIRI());
+			core.model.dto.ContextKind contextKind = new core.model.dto.ContextKind();
+			contextKind.setResource(ctxRes);
+			context.setContextKind(contextKind);
+			core.model.dto.Resource contextRes = new core.model.dto.Resource();
+			contextRes.setIRI(stat.getContext().getResource().getIRI());
+			context.setResource(contextRes);
+			
+			for(ResourceOccurrence r : stat.getContext().getResource().getResourceOccurrences()) {
+				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
+				occ.setContext(aStat);
+				occ.setKind(contextKind);
+				core.model.dto.Resource occRes = new core.model.dto.Resource();
+				occRes.setIRI(stat.getContext().getResource().getIRI());
+				occ.setResource(occRes);
+				context.getResource().getResourceOccurrences().add(occ);
+			}
+
+			core.model.dto.Resource subjRes = new core.model.dto.Resource();
+			subjRes.setIRI(stat.getSubject().getKind().getResource().getIRI());
+			core.model.dto.SubjectKind subjectKind = new core.model.dto.SubjectKind();
+			subjectKind.setResource(subjRes);
+			subject.setSubjectKind(subjectKind);
+			core.model.dto.Resource subjectRes = new core.model.dto.Resource();
+			subjectRes.setIRI(stat.getSubject().getResource().getIRI());
+			subject.setResource(subjectRes);
+			
+			for(ResourceOccurrence r : stat.getSubject().getResource().getResourceOccurrences()) {
+				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
+				occ.setContext(aStat);
+				occ.setKind(contextKind);
+				core.model.dto.Resource occRes = new core.model.dto.Resource();
+				occRes.setIRI(stat.getSubject().getResource().getIRI());
+				occ.setResource(occRes);
+				subject.getResource().getResourceOccurrences().add(occ);
+			}
+			
+			core.model.dto.Resource propRes = new core.model.dto.Resource();
+			propRes.setIRI(stat.getProperty().getKind().getResource().getIRI());
+			core.model.dto.PropertyKind propKind = new core.model.dto.PropertyKind();
+			propKind.setResource(propRes);
+			property.setPropertyKind(propKind);
+			core.model.dto.Resource propertyRes = new core.model.dto.Resource();
+			propertyRes.setIRI(stat.getProperty().getResource().getIRI());
+			property.setResource(propertyRes);
+			
+			for(ResourceOccurrence r : stat.getProperty().getResource().getResourceOccurrences()) {
+				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
+				occ.setContext(aStat);
+				occ.setKind(contextKind);
+				core.model.dto.Resource occRes = new core.model.dto.Resource();
+				occRes.setIRI(stat.getProperty().getResource().getIRI());
+				occ.setResource(occRes);
+				property.getResource().getResourceOccurrences().add(occ);
+			}
+			
+			core.model.dto.Resource objRes = new core.model.dto.Resource();
+			objRes.setIRI(stat.getObject().getKind().getResource().getIRI());
+			core.model.dto.ModelObjectKind objKind = new core.model.dto.ModelObjectKind();
+			objKind.setResource(objRes);
+			object.setObjectKind(objKind);
+			core.model.dto.Resource objectRes = new core.model.dto.Resource();
+			objectRes.setIRI(stat.getObject().getResource().getIRI());
+			object.setResource(objectRes);
+			
+			for(ResourceOccurrence r : stat.getObject().getResource().getResourceOccurrences()) {
+				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
+				occ.setContext(aStat);
+				occ.setKind(contextKind);
+				core.model.dto.Resource occRes = new core.model.dto.Resource();
+				occRes.setIRI(stat.getObject().getResource().getIRI());
+				occ.setResource(occRes);
+				object.getResource().getResourceOccurrences().add(occ);
+			}
+			
+			context.setContext(aStat);
+			subject.setContext(aStat);
+			property.setContext(aStat);
+			object.setContext(aStat);
+
+			aStat.setContext(context);
+			aStat.setSubject(subject);
+			aStat.setProperty(property);
+			aStat.setObject(object);
+			
+			marshaller.marshal(aStat, bos);	
+		}
+		
+		return new String(bos.toByteArray());
+		
+	}
+	
 }

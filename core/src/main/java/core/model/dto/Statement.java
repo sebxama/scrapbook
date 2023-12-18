@@ -11,38 +11,38 @@ public class Statement {
 	private Property property;
 	private ModelObject object;
 	
+	@XmlElement
 	public Context getContext() {
 		return context;
 	}
 	
-	@XmlElement
 	public void setContext(Context context) {
 		this.context = context;
 	}
 	
+	@XmlElement
 	public Subject getSubject() {
 		return subject;
 	}
 	
-	@XmlElement
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
 	
+	@XmlElement
 	public Property getProperty() {
 		return property;
 	}
 	
-	@XmlElement
 	public void setProperty(Property property) {
 		this.property = property;
 	}
 	
+	@XmlElement
 	public ModelObject getObject() {
 		return object;
 	}
 	
-	@XmlElement
 	public void setObject(ModelObject object) {
 		this.object = object;
 	}

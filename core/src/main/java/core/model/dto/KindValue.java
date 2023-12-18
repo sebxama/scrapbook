@@ -1,14 +1,19 @@
 package core.model.dto;
 
-public class KindValue<INST extends ResourceOccurrence, ATTR extends ResourceOccurrence, VAL extends ResourceOccurrence> {
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
-	private VAL value;
+@XmlRootElement
+public class KindValue {
+
+	private Resource value;
 	
-	public VAL getValue() {
+	@XmlElement
+	public Resource getValue() {
 		return value;
 	}
 	
-	public void setValue(VAL val) {
+	public void setValue(Resource val) {
 		this.value = val;
 	}
 	

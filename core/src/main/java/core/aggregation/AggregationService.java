@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,10 @@ import org.eclipse.rdf4j.spring.support.RDF4JTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import core.model.Context;
 import core.model.ContextImpl;
 import core.model.ContextKind;
@@ -33,6 +38,9 @@ import core.model.SubjectKind;
 import core.model.SubjectKindImpl;
 import core.model.SubjectKinds;
 import core.model.Subjects;
+import core.model.dto.KindAttribute;
+import core.model.dto.KindInstance;
+import core.model.dto.KindValue;
 import fcalib.api.fca.Attribute;
 import fcalib.api.fca.Computation;
 import fcalib.api.fca.Concept;
@@ -758,108 +766,168 @@ public class AggregationService {
 	public String marshallStatements() throws JAXBException, IOException {
 		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		JAXBContext ctx = JAXBContext.newInstance(core.model.dto.Statement.class);
-		Marshaller marshaller = ctx.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		ObjectMapper mapper = new XmlMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		core.model.dto.Statements stats = new core.model.dto.Statements();
 		for(Statement stat : Statements.getInstance().getStatements()) {
 			
 			core.model.dto.Statement aStat = new core.model.dto.Statement();
-			core.model.dto.Context context = new core.model.dto.Context();
-			core.model.dto.Subject subject = new core.model.dto.Subject();
-			core.model.dto.Property property = new core.model.dto.Property();
-			core.model.dto.ModelObject object = new core.model.dto.ModelObject();
 			
-			core.model.dto.Resource ctxRes = new core.model.dto.Resource();
-			ctxRes.setIRI(stat.getContext().getKind().getResource().getIRI());
-			core.model.dto.ContextKind contextKind = new core.model.dto.ContextKind();
-			contextKind.setResource(ctxRes);
-			context.setContextKind(contextKind);
+			core.model.dto.Context context = new core.model.dto.Context();
 			core.model.dto.Resource contextRes = new core.model.dto.Resource();
 			contextRes.setIRI(stat.getContext().getResource().getIRI());
+			core.model.dto.Resource ctxKindRes = new core.model.dto.Resource();
+			ctxKindRes.setIRI(stat.getContext().getKind().getResource().getIRI());
+			core.model.dto.ContextKind contextKind = new core.model.dto.ContextKind();
+			contextKind.setResource(ctxKindRes);
 			context.setResource(contextRes);
-			
-			for(ResourceOccurrence r : stat.getContext().getResource().getResourceOccurrences()) {
-				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
-				occ.setContext(aStat);
-				occ.setKind(contextKind);
-				core.model.dto.Resource occRes = new core.model.dto.Resource();
-				occRes.setIRI(stat.getContext().getResource().getIRI());
-				occ.setResource(occRes);
-				context.getResource().getResourceOccurrences().add(occ);
+			context.setContextStatement(aStat);
+			context.setKind(contextKind);
+			context.getResource().getResourceOccurrences().add(context);
+			contextKind.getResource().getResourceOccurrences().add(context);
+			Set<core.model.dto.KindInstance> instances = new HashSet<core.model.dto.KindInstance>();
+			for(core.model.Resource inst : stat.getContext().getKind().getInstancesResources()) {
+				core.model.dto.Resource instRes = new core.model.dto.Resource();
+				instRes.setIRI(inst.getIRI());
+				KindInstance kinst = new KindInstance();
+				kinst.setInstance(instRes);
+				for(core.model.Resource attr : stat.getContext().getKind().getAttributesResources(inst)) {
+					core.model.dto.Resource propRes = new core.model.dto.Resource();
+					propRes.setIRI(attr.getIRI());
+					KindAttribute kattr = new KindAttribute();
+					kattr.setAttribute(propRes);
+					kinst.getAttributes().add(kattr);
+					for(core.model.Resource val : stat.getContext().getKind().getValuesResources(inst, attr)) {
+						core.model.dto.Resource valRes = new core.model.dto.Resource();
+						valRes.setIRI(val.getIRI());
+						KindValue kval = new KindValue();
+						kval.setValue(valRes);
+						kattr.getValues().add(kval);
+					}
+				}
+				instances.add(kinst);
 			}
-
-			core.model.dto.Resource subjRes = new core.model.dto.Resource();
-			subjRes.setIRI(stat.getSubject().getKind().getResource().getIRI());
+			contextKind.getInstances().addAll(instances);
+			
+			core.model.dto.Resource subjKindRes = new core.model.dto.Resource();
+			subjKindRes.setIRI(stat.getSubject().getKind().getResource().getIRI());
 			core.model.dto.SubjectKind subjectKind = new core.model.dto.SubjectKind();
-			subjectKind.setResource(subjRes);
-			subject.setSubjectKind(subjectKind);
+			subjectKind.setResource(subjKindRes);
+			core.model.dto.Subject subject = new core.model.dto.Subject();
 			core.model.dto.Resource subjectRes = new core.model.dto.Resource();
 			subjectRes.setIRI(stat.getSubject().getResource().getIRI());
 			subject.setResource(subjectRes);
-			
-			for(ResourceOccurrence r : stat.getSubject().getResource().getResourceOccurrences()) {
-				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
-				occ.setContext(aStat);
-				occ.setKind(contextKind);
-				core.model.dto.Resource occRes = new core.model.dto.Resource();
-				occRes.setIRI(stat.getSubject().getResource().getIRI());
-				occ.setResource(occRes);
-				subject.getResource().getResourceOccurrences().add(occ);
+			subject.setContextStatement(aStat);
+			subject.setKind(subjectKind);
+			subject.getResource().getResourceOccurrences().add(subject);
+			subjectKind.getResource().getResourceOccurrences().add(subject);
+			instances = new HashSet<core.model.dto.KindInstance>();
+			for(core.model.Resource inst : stat.getSubject().getKind().getInstancesResources()) {
+				core.model.dto.Resource instRes = new core.model.dto.Resource();
+				instRes.setIRI(inst.getIRI());
+				KindInstance kinst = new KindInstance();
+				kinst.setInstance(instRes);
+				for(core.model.Resource attr : stat.getSubject().getKind().getAttributesResources(inst)) {
+					core.model.dto.Resource propRes = new core.model.dto.Resource();
+					propRes.setIRI(attr.getIRI());
+					KindAttribute kattr = new KindAttribute();
+					kattr.setAttribute(propRes);
+					kinst.getAttributes().add(kattr);
+					for(core.model.Resource val : stat.getSubject().getKind().getValuesResources(inst, attr)) {
+						core.model.dto.Resource valRes = new core.model.dto.Resource();
+						valRes.setIRI(val.getIRI());
+						KindValue kval = new KindValue();
+						kval.setValue(valRes);
+						kattr.getValues().add(kval);
+					}
+				}
+				instances.add(kinst);
 			}
+			subjectKind.getInstances().addAll(instances);
 			
-			core.model.dto.Resource propRes = new core.model.dto.Resource();
-			propRes.setIRI(stat.getProperty().getKind().getResource().getIRI());
-			core.model.dto.PropertyKind propKind = new core.model.dto.PropertyKind();
-			propKind.setResource(propRes);
-			property.setPropertyKind(propKind);
+			core.model.dto.Resource propKindRes = new core.model.dto.Resource();
+			propKindRes.setIRI(stat.getProperty().getKind().getResource().getIRI());
+			core.model.dto.PropertyKind propertyKind = new core.model.dto.PropertyKind();
+			propertyKind.setResource(propKindRes);
+			core.model.dto.Property property = new core.model.dto.Property();
 			core.model.dto.Resource propertyRes = new core.model.dto.Resource();
 			propertyRes.setIRI(stat.getProperty().getResource().getIRI());
 			property.setResource(propertyRes);
-			
-			for(ResourceOccurrence r : stat.getProperty().getResource().getResourceOccurrences()) {
-				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
-				occ.setContext(aStat);
-				occ.setKind(contextKind);
-				core.model.dto.Resource occRes = new core.model.dto.Resource();
-				occRes.setIRI(stat.getProperty().getResource().getIRI());
-				occ.setResource(occRes);
-				property.getResource().getResourceOccurrences().add(occ);
+			property.setContextStatement(aStat);
+			property.setKind(propertyKind);
+			property.getResource().getResourceOccurrences().add(property);
+			propertyKind.getResource().getResourceOccurrences().add(property);
+			instances = new HashSet<core.model.dto.KindInstance>();
+			for(core.model.Resource inst : stat.getProperty().getKind().getInstancesResources()) {
+				core.model.dto.Resource instRes = new core.model.dto.Resource();
+				instRes.setIRI(inst.getIRI());
+				KindInstance kinst = new KindInstance();
+				kinst.setInstance(instRes);
+				for(core.model.Resource attr : stat.getProperty().getKind().getAttributesResources(inst)) {
+					core.model.dto.Resource propRes = new core.model.dto.Resource();
+					propRes.setIRI(attr.getIRI());
+					KindAttribute kattr = new KindAttribute();
+					kattr.setAttribute(propRes);
+					kinst.getAttributes().add(kattr);
+					for(core.model.Resource val : stat.getProperty().getKind().getValuesResources(inst, attr)) {
+						core.model.dto.Resource valRes = new core.model.dto.Resource();
+						valRes.setIRI(val.getIRI());
+						KindValue kval = new KindValue();
+						kval.setValue(valRes);
+						kattr.getValues().add(kval);
+					}
+				}
+				instances.add(kinst);
 			}
+			propertyKind.getInstances().addAll(instances);
 			
-			core.model.dto.Resource objRes = new core.model.dto.Resource();
-			objRes.setIRI(stat.getObject().getKind().getResource().getIRI());
-			core.model.dto.ModelObjectKind objKind = new core.model.dto.ModelObjectKind();
-			objKind.setResource(objRes);
-			object.setObjectKind(objKind);
+			core.model.dto.Resource objKindRes = new core.model.dto.Resource();
+			objKindRes.setIRI(stat.getObject().getKind().getResource().getIRI());
+			core.model.dto.ModelObjectKind objectKind = new core.model.dto.ModelObjectKind();
+			objectKind.setResource(objKindRes);
+			core.model.dto.ModelObject object = new core.model.dto.ModelObject();
 			core.model.dto.Resource objectRes = new core.model.dto.Resource();
 			objectRes.setIRI(stat.getObject().getResource().getIRI());
 			object.setResource(objectRes);
-			
-			for(ResourceOccurrence r : stat.getObject().getResource().getResourceOccurrences()) {
-				core.model.dto.ResourceOccurrence occ = new core.model.dto.ResourceOccurrence();
-				occ.setContext(aStat);
-				occ.setKind(contextKind);
-				core.model.dto.Resource occRes = new core.model.dto.Resource();
-				occRes.setIRI(stat.getObject().getResource().getIRI());
-				occ.setResource(occRes);
-				object.getResource().getResourceOccurrences().add(occ);
+			object.setContextStatement(aStat);
+			object.setKind(objectKind);
+			object.getResource().getResourceOccurrences().add(object);
+			objectKind.getResource().getResourceOccurrences().add(object);
+			instances = new HashSet<core.model.dto.KindInstance>();
+			for(core.model.Resource inst : stat.getObject().getKind().getInstancesResources()) {
+				core.model.dto.Resource instRes = new core.model.dto.Resource();
+				instRes.setIRI(inst.getIRI());
+				KindInstance kinst = new KindInstance();
+				kinst.setInstance(instRes);
+				for(core.model.Resource attr : stat.getObject().getKind().getAttributesResources(inst)) {
+					core.model.dto.Resource propRes = new core.model.dto.Resource();
+					propRes.setIRI(attr.getIRI());
+					KindAttribute kattr = new KindAttribute();
+					kattr.setAttribute(propRes);
+					kinst.getAttributes().add(kattr);
+					for(core.model.Resource val : stat.getObject().getKind().getValuesResources(inst, attr)) {
+						core.model.dto.Resource valRes = new core.model.dto.Resource();
+						valRes.setIRI(val.getIRI());
+						KindValue kval = new KindValue();
+						kval.setValue(valRes);
+						kattr.getValues().add(kval);
+					}
+				}
+				instances.add(kinst);
 			}
+			objectKind.getInstances().addAll(instances);
 			
-			context.setContext(aStat);
-			subject.setContext(aStat);
-			property.setContext(aStat);
-			object.setContext(aStat);
-
 			aStat.setContext(context);
 			aStat.setSubject(subject);
 			aStat.setProperty(property);
 			aStat.setObject(object);
 			
-			marshaller.marshal(aStat, bos);	
+			stats.getStatement().add(aStat);
 		}
 		
+		mapper.writeValue(bos, stats);
 		return new String(bos.toByteArray());
-		
 	}
 	
 }

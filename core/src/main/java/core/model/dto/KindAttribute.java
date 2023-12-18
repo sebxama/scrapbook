@@ -1,21 +1,33 @@
 package core.model.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
-public class KindAttribute<INST extends ResourceOccurrence, ATTR extends ResourceOccurrence, VAL extends ResourceOccurrence> {
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
-	private ATTR attribute;
-	private Set<KindValue<INST, ATTR, VAL>> values;
+@XmlRootElement
+public class KindAttribute {
+
+	private Resource attribute;
+	private Set<KindValue> values;
 	
-	public ATTR getAttribute() {
+	public KindAttribute() {
+		this.values = new HashSet<KindValue>();
+	}
+	
+	@XmlElement
+	public Resource getAttribute() {
 		return attribute;
 	}
 	
-	public void setAttribute(ATTR attr) {
+	public void setAttribute(Resource attr) {
 		this.attribute = attr;
 	}
 	
-	public Set<KindValue<INST, ATTR, VAL>> getValues() {
+	@XmlElementRef
+	public Set<KindValue> getValues() {
 		return this.values;
 	}
 	

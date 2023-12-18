@@ -3,9 +3,14 @@ package core.model.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ModelObjectKind extends Kind {
 
-	private Set<KindInstance<ModelObject, Property, Subject>> instances;
+	private Set<KindInstance> instances;
 
 	private Resource resource;
 	private Set<ModelObjectKind> superKinds;
@@ -17,14 +22,16 @@ public class ModelObjectKind extends Kind {
 		this.subKinds = new HashSet<ModelObjectKind>();
 	}
 	
-	public Set<KindInstance<ModelObject, Property, Subject>> getInstances() {
+	@XmlElement
+	public Set<KindInstance> getInstances() {
 		return instances;
 	}
 
-	public void setInstances(Set<KindInstance<ModelObject, Property, Subject>> instances) {
+	public void setInstances(Set<KindInstance> instances) {
 		this.instances = instances;
 	}
 
+	@XmlElement
 	public Resource getResource() {
 		return resource;
 	}
@@ -33,6 +40,7 @@ public class ModelObjectKind extends Kind {
 		this.resource = resource;
 	}
 
+	@XmlElementRef
 	public Set<ModelObjectKind> getSuperKinds() {
 		return superKinds;
 	}
@@ -41,6 +49,7 @@ public class ModelObjectKind extends Kind {
 		this.superKinds = superKinds;
 	}
 
+	@XmlElementRef
 	public Set<ModelObjectKind> getSubKinds() {
 		return subKinds;
 	}

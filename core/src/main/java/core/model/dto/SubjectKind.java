@@ -3,6 +3,8 @@ package core.model.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -22,7 +24,7 @@ public class SubjectKind extends Kind {
 		this.subKinds = new HashSet<SubjectKind>();
 	}
 	
-	@XmlElementRef
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public Set<KindInstance> getInstances() {
 		return instances;
 	}
@@ -40,7 +42,7 @@ public class SubjectKind extends Kind {
 		this.resource = resource;
 	}
 
-	@XmlElementRef
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public Set<SubjectKind> getSuperKinds() {
 		return superKinds;
 	}
@@ -49,7 +51,7 @@ public class SubjectKind extends Kind {
 		this.superKinds = superKinds;
 	}
 
-	@XmlElementRef
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public Set<SubjectKind> getSubKinds() {
 		return subKinds;
 	}

@@ -29,6 +29,14 @@
 
 	<dependencies>
 
+<!-- https://mvnrepository.com/artifact/org.apache.jena/apache-jena-libs -->
+<dependency>
+    <groupId>org.apache.jena</groupId>
+    <artifactId>apache-jena-libs</artifactId>
+    <version>4.10.0</version>
+    <type>pom</type>
+</dependency>
+
 <dependency>
     <groupId>fr.lirmm.fca4j</groupId>
     <artifactId>fca4j-app</artifactId>

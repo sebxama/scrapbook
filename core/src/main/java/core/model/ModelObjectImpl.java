@@ -6,4 +6,9 @@ public class ModelObjectImpl extends ResourceOccurrenceImpl implements ModelObje
 		super(iri);
 	}
 	
+	@Override
+	public ModelObjectKind getKind() {
+		return (ModelObjectKind) super.getKind();
+	}
+	
 }

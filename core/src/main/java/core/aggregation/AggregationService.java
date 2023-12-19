@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.impl.DynamicModelFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.query.BindingSet;
@@ -32,6 +33,7 @@ import core.model.ContextKind;
 import core.model.ContextKindImpl;
 import core.model.ContextKinds;
 import core.model.Contexts;
+import core.model.Kind;
 import core.model.Subject;
 import core.model.SubjectImpl;
 import core.model.SubjectKind;
@@ -763,11 +765,12 @@ public class AggregationService {
 		return Statements.getInstance().getStatements();
 	}
 
+	@Autowired
+	XmlMapper mapper;
+	
 	public String marshallStatements() throws JAXBException, IOException {
 		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectMapper mapper = new XmlMapper();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		core.model.dto.Statements stats = new core.model.dto.Statements();
 		for(Statement stat : Statements.getInstance().getStatements()) {
@@ -785,6 +788,7 @@ public class AggregationService {
 			context.setContextStatement(aStat);
 			context.setKind(contextKind);
 			context.getResource().getResourceOccurrences().add(context);
+			
 			contextKind.getResource().getResourceOccurrences().add(context);
 			Set<core.model.dto.KindInstance> instances = new HashSet<core.model.dto.KindInstance>();
 			for(core.model.Resource inst : stat.getContext().getKind().getInstancesResources()) {
@@ -807,6 +811,20 @@ public class AggregationService {
 					}
 				}
 				instances.add(kinst);
+			}
+			for(Kind kind : stat.getContext().getKind().getSuperKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.ContextKind superKind = new core.model.dto.ContextKind();
+				superKind.setResource(kindRes);
+				contextKind.getSuperKinds().add(superKind);
+			}
+			for(Kind kind : stat.getContext().getKind().getSubKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.ContextKind subKind = new core.model.dto.ContextKind();
+				subKind.setResource(kindRes);
+				contextKind.getSubKinds().add(subKind);
 			}
 			contextKind.getInstances().addAll(instances);
 			
@@ -844,6 +862,20 @@ public class AggregationService {
 				}
 				instances.add(kinst);
 			}
+			for(Kind kind : stat.getSubject().getKind().getSuperKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.SubjectKind superKind = new core.model.dto.SubjectKind();
+				superKind.setResource(kindRes);
+				subjectKind.getSuperKinds().add(superKind);
+			}
+			for(Kind kind : stat.getSubject().getKind().getSubKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.SubjectKind subKind = new core.model.dto.SubjectKind();
+				subKind.setResource(kindRes);
+				subjectKind.getSubKinds().add(subKind);
+			}
 			subjectKind.getInstances().addAll(instances);
 			
 			core.model.dto.Resource propKindRes = new core.model.dto.Resource();
@@ -879,6 +911,20 @@ public class AggregationService {
 					}
 				}
 				instances.add(kinst);
+			}
+			for(Kind kind : stat.getProperty().getKind().getSuperKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.PropertyKind superKind = new core.model.dto.PropertyKind();
+				superKind.setResource(kindRes);
+				propertyKind.getSuperKinds().add(superKind);
+			}
+			for(Kind kind : stat.getProperty().getKind().getSubKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.PropertyKind subKind = new core.model.dto.PropertyKind();
+				subKind.setResource(kindRes);
+				propertyKind.getSubKinds().add(subKind);
 			}
 			propertyKind.getInstances().addAll(instances);
 			
@@ -916,6 +962,20 @@ public class AggregationService {
 				}
 				instances.add(kinst);
 			}
+			for(Kind kind : stat.getObject().getKind().getSuperKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.ModelObjectKind superKind = new core.model.dto.ModelObjectKind();
+				superKind.setResource(kindRes);
+				objectKind.getSuperKinds().add(superKind);
+			}
+			for(Kind kind : stat.getObject().getKind().getSubKinds()) {
+				core.model.dto.Resource kindRes = new core.model.dto.Resource();
+				kindRes.setIRI(kind.getResource().getIRI());
+				core.model.dto.ModelObjectKind subKind = new core.model.dto.ModelObjectKind();
+				subKind.setResource(kindRes);
+				objectKind.getSubKinds().add(subKind);
+			}
 			objectKind.getInstances().addAll(instances);
 			
 			aStat.setContext(context);
@@ -926,8 +986,35 @@ public class AggregationService {
 			stats.getStatement().add(aStat);
 		}
 		
-		mapper.writeValue(bos, stats);
-		return new String(bos.toByteArray());
+		return mapper.writeValueAsString(stats);
+	}
+
+	public String buildOWLRepresentation() {
+		
+		// TODO: Use Jena's Ontology APIs
+		
+		for(Statement stat : Statements.getInstance().getStatements()) {
+			
+			
+			Context context = stat.getContext();
+			context.getResource();
+			context.getResource().getResourceOccurrences();
+			ContextKind contextKind = context.getKind();
+			contextKind.getInstances();
+			contextKind.getAttributes(null);
+			contextKind.getValues(null, null);
+			contextKind.getConcept();
+			contextKind.getSubKinds();
+			contextKind.getSuperKinds();
+			contextKind.getResource().getResourceOccurrences();
+			
+			Subject subject = stat.getSubject();
+			Property property = stat.getProperty();
+			ModelObject object = stat.getObject();
+		
+		}
+		
+		return null;
 	}
 	
 }

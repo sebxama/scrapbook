@@ -6,4 +6,9 @@ public class SubjectImpl extends ResourceOccurrenceImpl implements Subject {
 		super(iri);
 	}
 	
+	@Override
+	public SubjectKind getKind() {
+		return (SubjectKind) super.getKind();
+	}
+	
 }

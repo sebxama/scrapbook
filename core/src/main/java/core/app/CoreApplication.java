@@ -11,10 +11,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import core.activation.ActivationController;
 import core.aggregation.AggregationController;
-import core.alignment.AlignmentController;
+import core.inference.InferenceController;
 
 @SpringBootApplication
-@ComponentScan(basePackageClasses = { AggregationController.class, AlignmentController.class, ActivationController.class })
+@ComponentScan(basePackageClasses = { AggregationController.class, InferenceController.class, ActivationController.class })
 public class CoreApplication {
 
 	public static void main(String[] args) {

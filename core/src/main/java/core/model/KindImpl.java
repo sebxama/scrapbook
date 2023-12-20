@@ -34,6 +34,11 @@ public abstract class KindImpl	<INST extends ResourceOccurrence,
 	public Resource getResource() {
 		return this.resource;
 	}
+
+	@Override
+	public void setResource(Resource res) {
+		this.resource = res;
+	}
 	
 	@Override
 	public Concept<String, String> getConcept() {

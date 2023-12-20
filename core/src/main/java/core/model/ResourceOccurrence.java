@@ -1,10 +1,6 @@
 package core.model;
 
-public interface ResourceOccurrence {
-
-	public Resource getResource();
-	
-	public void setResource(Resource res);
+public interface ResourceOccurrence extends HasResource {
 	
 	public Statement getContextStatement();
 

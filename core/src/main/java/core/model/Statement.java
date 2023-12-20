@@ -1,6 +1,6 @@
 package core.model;
 
-public interface Statement {
+public interface Statement extends HasResource {
 
 	public Context getContext();
 	

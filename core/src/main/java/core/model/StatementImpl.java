@@ -4,13 +4,23 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 public class StatementImpl implements Statement {
 
+	private Resource resource;
+	
 	private Context context;
 	private Subject subject;
 	private Property property;
 	private ModelObject object;
 	
 	public StatementImpl() {
-
+		// TODO: Implement Resource
+	}
+	
+	public Resource getResource() {
+		return this.resource;
+	}
+	
+	public void setResource(Resource res) {
+		this.resource = res;
 	}
 	
 	@JsonBackReference

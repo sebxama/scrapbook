@@ -4,9 +4,7 @@ import java.util.Set;
 
 import fcalib.api.fca.Concept;
 
-public interface Kind {
-	
-	public Resource getResource();
+public interface Kind extends HasResource {
 	
 	public Set<Kind> getSuperKinds();
 	

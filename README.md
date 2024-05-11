@@ -1,6 +1,6 @@
-![alt text](https://github.com/sebxama/scrapbook/raw/master/photo.png "Cognescent") 
+![alt text](https://github.com/sebxama/scrapbook/raw/master/photo.png "Scrapbook") 
 
-[<h3>Cognescent</h3>](https://github.com/users/sebxama/projects/1)
+[<h3>Scrapbook</h3>](https://github.com/users/sebxama/projects/1)
 
 Hello, World! I'm Sebastian Samaruga (ssamarug@gmail.com), software developer from Buenos Aires, Argentina. I'm currently mildly seasoned in the development of business applications in the Java platform and related technologies and stacks.
 But what has got me scratching my head a lot in the last couple of years is the "Semantic Web". Here I'll deploy my thougts and a proposal of a framework for building Business Applications and Integration features.
@@ -81,5 +81,3 @@ Spring REST HATEOAS (Hypermedia As The Engine Of Application State) Implementati
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 https://sebxama.blogspot.com
-Best.
-

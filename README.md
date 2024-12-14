@@ -52,6 +52,8 @@ https://github.com/sebxama/sebxama
 
 https://github.com/sebxama/scrapbook
 
+https://github.com/sebxama/scrapbook/raw/refs/heads/master/SemanticWebAlignmentTheory.pdf
+
 * Upper ontology: https://en.wikipedia.org/wiki/Upper_ontology
 
 * DCI: https://en.wikipedia.org/wiki/Data,_context_and_interaction
